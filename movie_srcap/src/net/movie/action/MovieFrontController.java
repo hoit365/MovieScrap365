@@ -74,14 +74,14 @@ public class MovieFrontController extends HttpServlet{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} /*else if(command.equals("/MovieMainRank.mv")){
+		} else if(command.equals("/MovieMainRank.mv")){
 			action = new MovieMainRankAction();
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}*/ else if(command.equals("/MovieReviewExistence.mv")) {
+		} else if(command.equals("/MovieReviewExistence.mv")) {
 			action = new MovieReviewExistence();
 			try {
 				forward = action.execute(request, response);
