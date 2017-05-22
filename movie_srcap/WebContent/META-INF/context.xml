@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource
+		name="jdbc/OracleDB"
+		auth="Container"
+		type="javax.sql.DataSource"
+		username="soldesk"
+		password="2017"
+		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+		driverClassName="oracle.jdbc.OracleDriver"
+		url="jdbc:oracle:thin:@172.16.1.50:1521:xe"
+		maxActive="500"
+		maxIdle="100"
+		validationQuery="select 1 from dual"
+		testOnBorrow="false"
+		poolPreparedStatements="true"
+	/>
+</Context>
