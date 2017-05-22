@@ -67,7 +67,7 @@ create table MovieRank(
 );
 
 
-select * from MovieRank;
+select * from MovieRank order by ms_cnt desc;
 
 delete from MovieRank;
 

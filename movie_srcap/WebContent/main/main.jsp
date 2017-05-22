@@ -1,7 +1,14 @@
+<%@page import="net.movie.db.MovieBean"%>
+<%@page import="java.util.List"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:import url="../layout/header.jsp"></c:import>
+<%
+	List movierankList = (List) request.getAttribute("movierankList");
+%>
 <!-- content -->
 <section class="content main_content">
 	<div class="main_search_area">
@@ -110,6 +117,9 @@
 					<!-- //매거진 -->
 				</div>
 				<div class="tab_content" id="tab_moviescrap">
+					
+					<%-- <jsp:include page="../movie/movie_rank.jsp"></jsp:include> --%>
+					
 					<!-- 순위 -->
 					<div class="movie_lank_area">
 						<ul class="clear">
@@ -119,28 +129,10 @@
 								<span class="tit ellipsis">센과치히로의 행방불명</span>
 								<span class="count">20,555</span>
 							</li>
-							<li>
-								<span class="num">2.</span>
-								<span class="img"><img src="${IMG_PATH }/poster/poster (2).jpg" alt="" /></span>
-								<span class="tit ellipsis">바람의 계곡 </span>
-								<span class="count">11,555</span>
-							</li>
-							<li>
-								<span class="num">3.</span>
-								<span class="img"><img src="${IMG_PATH }/poster/poster (3).jpg" alt="" /></span>
-								<span class="tit ellipsis">토토로</span>
-								<span class="count">10,555</span>
-							</li>	
-							<li>
-								<span class="num">3.</span>
-								<span class="img"><img src="${IMG_PATH }/poster/poster (5).jpg" alt="" /></span>
-								<span class="tit ellipsis">토토로</span>
-								<span class="count">9,555</span>
-							</li>							
 						</ul>
 					</div>
 					<!-- //순위 -->
-				</div>				
+				</div>
 			</div>
 		</div>
 	</div>

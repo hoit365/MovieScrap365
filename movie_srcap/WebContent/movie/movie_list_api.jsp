@@ -67,6 +67,7 @@
 								<a href="MovieScrapView.mv?seq=${movie.movieSeq }&id=${movie.movieId }">자세히보기</a>
 								<a href="MovieScrapAdd.mv?seq=${movie.movieSeq }&id=${movie.movieId }">스크랩하기</a>
 								<a href="BoardListAction.bo">토론하기</a>
+								<a href="MovieMainRank.mv">123</a>
 							</dd>
 						</dl>
 					</div>
