@@ -7,10 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.taglibs.standard.lang.jstl.BooleanLiteral;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class AdminController extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
 	static final long serialVersionUID = 1L;
 
@@ -34,24 +30,39 @@ public class AdminController extends javax.servlet.http.HttpServlet implements j
 		}
 
 		
-		// 로그인 액션계열
-		else if (command.equals("/member_list.ad")) {
-			action = new AdminLoginAction();
-			forward = new ActionForward();
+		// 단순 로그인
+				else if (command.equals("/adminLogin.ad")) {
+					action = new AdminLoginAction();
+					forward = new ActionForward();
 
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if ((boolean) request.getAttribute("result") == false) {
-				forward.setRedirect(false);
-				forward.setPath("./admin/page/adminLogin.jsp");
-			} else {
-				forward.setRedirect(false);
-				forward.setPath("./admin/page/member_list.jsp");
-			}
-		}
+					try {
+						forward = action.execute(request, response);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if ((Integer)request.getAttribute("result") == 0) {
+						forward.setRedirect(false);
+						forward.setPath("./admin/page/member_list.jsp");
+					} else {
+						forward.setRedirect(false);
+						forward.setPath("./admin/page/adminLogin.jsp");
+					}
+				}
+		// 유저 정보 조회 액션계열
+				else if (command.equals("/member_list.ad")) {
+					action = new AdminMemberViewAction();
+					forward = new ActionForward();
+
+					try {
+						forward = action.execute(request, response);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+						forward.setRedirect(false);
+						forward.setPath("./admin/page/member_list.jsp");
+					
+				}
 		
 		// 로그아웃
 		if (command.equals("/logout.me")) {

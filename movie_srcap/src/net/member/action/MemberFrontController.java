@@ -153,6 +153,17 @@ public class MemberFrontController extends javax.servlet.http.HttpServlet implem
 				forward.setRedirect(false);
 				forward.setPath("./member/loginForm.jsp");
 			} else {
+				if (request.getAttribute("ms_seq") != null && request.getAttribute("ms_id") != null) {
+
+					String ms_seq = (String) request.getAttribute("ms_seq");
+					String ms_id = (String) request.getAttribute("ms_id");
+
+					forward.setRedirect(false);
+					forward.setPath("./MovieScrapView.mv?id=" + ms_id + "&seq=" + ms_seq);
+				} else {
+					forward.setRedirect(false);
+					forward.setPath("./main/main.jsp");
+				}
 				forward.setRedirect(false);
 				forward.setPath("./main/main.jsp");
 			}
@@ -176,43 +187,43 @@ public class MemberFrontController extends javax.servlet.http.HttpServlet implem
 			}
 		}
 		// 회원 정보 조회
-				else if (command.equals("/memberInfo.me")) {
-					action = new MemberInfoAction();
-					forward = new ActionForward();
+		else if (command.equals("/memberInfo.me")) {
+			action = new MemberInfoAction();
+			forward = new ActionForward();
 
-					try {
-						forward = action.execute(request, response);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					if ((boolean) request.getAttribute("result") == false) {
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if ((boolean) request.getAttribute("result") == false) {
 
-						forward.setRedirect(false);
-						forward.setPath("./member/memberCheckPass.jsp");
-					} else if ((boolean) request.getAttribute("result") == true) {
-						forward.setRedirect(false);
-						forward.setPath("./member/memberInfo.jsp");
-					}
-				}
+				forward.setRedirect(false);
+				forward.setPath("./member/memberCheckPass.jsp");
+			} else if ((boolean) request.getAttribute("result") == true) {
+				forward.setRedirect(false);
+				forward.setPath("./member/memberInfo.jsp");
+			}
+		}
 		// 회원 정보 수정
-				else if (command.equals("/MemberInfoUpdate.me")) {
-					action = new MemberInfoUpdateAction();
-					forward = new ActionForward();
+		else if (command.equals("/MemberInfoUpdate.me")) {
+			action = new MemberInfoUpdateAction();
+			forward = new ActionForward();
 
-					try {
-						forward = action.execute(request, response);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					if ((boolean) request.getAttribute("result") == false) {
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if ((boolean) request.getAttribute("result") == false) {
 
-						forward.setRedirect(false);
-						forward.setPath("./member/memberInfo.jsp");
-					} else if ((boolean) request.getAttribute("result") == true) {
-						forward.setRedirect(false);
-						forward.setPath("./main/main.jsp");
-					}
-				}
+				forward.setRedirect(false);
+				forward.setPath("./member/memberInfo.jsp");
+			} else if ((boolean) request.getAttribute("result") == true) {
+				forward.setRedirect(false);
+				forward.setPath("./main/main.jsp");
+			}
+		}
 		// 로그아웃
 		if (command.equals("/logout.me")) {
 			action = new LogoutAction();

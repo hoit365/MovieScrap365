@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,17 +18,18 @@ public class AdminDAO {
 	PreparedStatement pstmt;
 	ResultSet rs;
 	DataSource ds;
-	
+
 	public AdminDAO() {
-		try{
+		try {
 			Context init = new InitialContext();
-			ds = (DataSource)init.lookup("java:comp/env/jdbc/OracleDB");
-		}catch (Exception ex) {
-			System.out.println("DB Connection fail :"+ex);
+			ds = (DataSource) init.lookup("java:comp/env/jdbc/OracleDB");
+		} catch (Exception ex) {
+			System.out.println("DB Connection fail :" + ex);
 			return;
 		}
 	}
-	public boolean MemberInfoUpdate(AdminBean member){
+
+	public boolean MemberInfoUpdate(AdminBean member) {
 		String sql = "UPDATE MEMBER SET MB_PW = ?, MB_PH = ?, MB_EMAIL = ?  WHERE MB_ID=?";
 		int result = 0;
 		try {
@@ -37,233 +40,219 @@ public class AdminDAO {
 			pstmt.setString(3, member.getMB_EMAIL());
 			pstmt.setString(4, member.getMB_ID());
 			result = pstmt.executeUpdate();
-			
-			if(result!=0){
+
+			if (result != 0) {
 				return true;
 			}
 		} catch (Exception e) {
-			System.out.println("joinMember Error : "+e);
+			System.out.println("joinMember Error : " + e);
 		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
 		}
 		return false;
 	}
-	
-	public boolean MemberPwUpdate(AdminBean member){
-		String sql = "UPDATE MEMBER SET MB_PW = ?  WHERE MB_ID=?";
-		int result = 0;
-		boolean loginOk = false;
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member.getMB_PW());
-			pstmt.setString(2, member.getMB_ID());
-			result = pstmt.executeUpdate();
-			
-			if(result!=0){
-				loginOk= true;
-			}else{loginOk=false;}
-		} catch (Exception e) {
-			System.out.println("MemberPwReset Error : "+e);
-		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
-		}
-		return loginOk;
-	}
-	
-	public boolean LoginChk(AdminBean adminBean ){
-		String sql = "select MB_ID, MB_PW,MB_NAME, MB_MANAGER from MEMBER where MB_ID=?";
-		boolean result = false;
-		
+
+	public int LoginChk(AdminBean adminBean) {
+		String sql = "select MB_ID,MB_PW, MB_NAME, MB_MANAGER, MB_STAT from MEMBER where MB_ID=?";
+		int result = 5;
+		// 0 : 로그인 성공
+		// 1 : 아이디 비밀번호 일치하지 않음
+		// 2 : 어드민 계정이 아님
+		// 3 : 비활성화된 어드민 계정
+		// 4 : 알수 없는 오류로 로그인 실패
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, adminBean.getMB_ID());
 			rs = pstmt.executeQuery();
 			System.out.println(adminBean.toString());
-			if(rs.next()){
-				if(rs.getString("MB_ID").equals(adminBean.getMB_ID()) 
-						&& rs.getString("MB_PW").equals(adminBean.getMB_PW()) 
-						&& rs.getString("MB_MANAGER").equals("yes")){
+
+			if (rs.next()) {
+				if (rs.getString("MB_ID").equals(adminBean.getMB_ID())
+						&& rs.getString("MB_PW").equals(adminBean.getMB_PW())
+						&& rs.getString("MB_MANAGER").equals("yes") && rs.getString("MB_STAT").equals("active")) {
 					adminBean.setMB_NAME(rs.getString("MB_NAME"));
-					result = true; //아이디 비밀번호 일치
+					result = 0; // 아이디 비밀번호 일치
+					System.out.println(result);
 				}
-			} else {
-				System.out.println(adminBean.toString());
-				result = false; //아이디와 비밀번호가 일치 하지 않음
-			}
-		} catch (Exception e) {
-			System.out.println("LoginChk Error : "+e);
-		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
-		}
-		
-		return result;
-		
-	}
-	public int isMember(AdminBean member){
-		String sql = "select MB_PW from MEMBER where MB_ID=?";
-		int result = -1;
+				if (rs.getString("MB_PW").equals(adminBean.getMB_PW()) == false) {
+					System.out.println(rs.getString("MB_PW"));
+					System.out.println(adminBean.getMB_PW());
+					System.out.println(adminBean.toString());
+					result = 1; // 아이디와 비밀번호가 일치 하지 않음
+					System.out.println(result);
+				}
+				if (rs.getString("MB_MANAGER").equals("no")) {
+					System.out.println(adminBean.toString());
+					result = 2; // 어드민 계정이 아님
+					System.out.println(result);
+				}
+				if (rs.getString("MB_STAT").equals("inactive")) {
+					System.out.println(adminBean.toString());
+					result = 3; // 비활성화된 계정
+					System.out.println(result);
+				}
 
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member.getMB_ID());
-			rs = pstmt.executeQuery();
-			if(rs.next()){
-				if(rs.getString("MB_PW").equals(member.getMB_PW())){
-					result = 1; //일치
-				} else {
-					result = 0;
-				}
-			} else {
-				result = -1; //아이디가 존재 x
 			}
+
 		} catch (Exception e) {
-			System.out.println("isMember Error : "+e);
+			System.out.println("LoginChk Error : " + e);
+			result = 4;// 알수 없는 오류로 로그인 실패
+			System.out.println(result);
 		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
 		}
-		
+
 		return result;
+
 	}
-	public String findMyId(AdminBean member){
-		String sql = "select MB_NAME, MB_PH, MB_ID from MEMBER where MB_NAME = ? and MB_PH = ? ";
-		String result = "";
+
+	public AdminBean adminMemberSelectView(AdminBean member) {
+		String sql = "select MB_ID, MB_NAME, MB_BIRTH, MB_GENDER, MB_PH, MB_EMAIL, "
+				+ "MB_REGDATE, MB_STAT from member where";
 		System.out.println("DAO 진입");
 		try {
-			con = ds.getConnection();
-			
-			System.out.println(member.toString());
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member.getMB_NAME());
-			pstmt.setString(2, member.getMB_PH());
-			rs = pstmt.executeQuery();
-			
-			
-			
-			if(rs.next() ){
-				if(rs.getString("MB_NAME").equals(member.getMB_NAME()) && 
-						rs.getString("MB_PH").equals(member.getMB_PH())){
-					//member.setMB_ID(rs.getString("MB_ID")); //아이디 반환
-					result = rs.getString("MB_ID");//아이디 찾기 완료
-				} else {
-					result = "";
-				}
-			} else {
-				result = ""; //아이디가 존재 x
+			if (member.getMB_ID() != null) {
+				sql += "MB_ID = " + member.getMB_ID();
+			} else if (member.getMB_NAME() != null) {
+				sql += "MB_NAME = " + member.getMB_NAME();
+			} else if (member.getMB_PH() != null) {
+				sql += "MB_PH = " + member.getMB_PH();
+			} else if (member.getMB_EMAIL() != null) {
+				sql += "MB_EMAIL = " + member.getMB_EMAIL();
+			} else if (member.getMB_STAT() != null) {
+				sql += "MB_STAT = " + member.getMB_STAT();
 			}
-		} catch (Exception e) {
-			
-			System.out.println("findMyId Error : "+e);
-		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
-		}
-
-		return result;
-	}
-	
-	public boolean findMyPw(AdminBean member){
-		String sql = "select MB_ID, MB_PH from MEMBER where MB_ID = ? and MB_PH = ? ";
-		boolean result = false;
-		System.out.println("DAO 진입");
-		try {
-			con = ds.getConnection();
-			
-			System.out.println(member.toString());
-			
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member.getMB_ID());
-			pstmt.setString(2, member.getMB_PH());
-			rs = pstmt.executeQuery();
-			
-			
-			
-			if(rs.next() ){
-				if(rs.getString("MB_ID").equals(member.getMB_ID()) && 
-						rs.getString("MB_PH").equals(member.getMB_PH())){
-
-					result = true;//패스워드 수정 허가
-				} else {
-					System.out.println("회원정보 일치 안함");
-					result = false;//회원정보 일치 하지 않음
-				}
-			} else {
-				System.out.println("검색결과 없음");
-				result = false;//DB에서 찾을 수 없었음
-			}
-		} catch (Exception e) {
-			
-			System.out.println("findMyPw Error : "+e);
-		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
-		}
-
-		return result;
-	}
-	
-	public AdminBean memberUpdate(AdminBean member){
-		String sql = "select MB_ID, MB_PW, MB_NAME, MB_BIRTH, MB_GENDER, "
-				+ "MB_PH, MB_EMAIL FROM MEMBER WHERE MB_ID = ? and MB_PW = ?";
-		System.out.println("DAO 진입");
-		String msg="아이디가 잘못 입력 되었어요";
-		try {
 
 			System.out.println(member.toString());
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member.getMB_ID());
-			pstmt.setString(2, member.getMB_PW());
 			rs = pstmt.executeQuery();
-			
-			if(rs.next() ){
-				if(rs.getString("MB_ID").equals(member.getMB_ID()) && 
-						rs.getString("MB_PW").equals(member.getMB_PW())){
-					member.setMB_ID(rs.getString("MB_ID"));
-					member.setMB_PW(rs.getString("MB_PW"));
-					member.setMB_NAME(rs.getString("MB_NAME"));
-					member.setMB_BIRTH(rs.getString("MB_BIRTH"));
-					member.setMB_GENDER(rs.getString("MB_GENDER"));
-					member.setMB_PH(rs.getString("MB_PH"));
-					member.setMB_EMAIL(rs.getString("MB_EMAIL"));
-					
-					System.out.println("test successful");
-					//아이디 찾기 완료
-				} else {
-					System.out.println("아이디 비밀번호 일치하지 않음");
-					System.out.println(member.toString());
-					return null;//아이디 비밀번호가 일치 하지 않음
-				}
+
+			if (rs.next()) {
+
+				member.setMB_ID(rs.getString("MB_ID"));
+				member.setMB_PW(rs.getString("MB_PW"));
+				member.setMB_NAME(rs.getString("MB_NAME"));
+				member.setMB_BIRTH(rs.getString("MB_BIRTH"));
+				member.setMB_GENDER(rs.getString("MB_GENDER"));
+				member.setMB_PH(rs.getString("MB_PH"));
+				member.setMB_EMAIL(rs.getString("MB_EMAIL"));
+
+				System.out.println("test successful");
+				// 아이디 찾기 완료
 			} else {
-				System.out.println("정보 조회 이상");
+				System.out.println("일치하는 맴버가 없음");
 				System.out.println(member.toString());
-				return null;//정보 조회 이상
+				return null;// 아이디 비밀번호가 일치 하지 않음
 			}
 		} catch (Exception e) {
-			
-			System.out.println("findMyId Error : "+e);
+
+			System.out.println("findMyId Error : " + e);
 		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
 		}
 		return member;
 	}
-	
-	public int myPageAuth(AdminBean member){
+	public List adminMemberAllView() {
+		String sql = "select MB_ID, MB_NAME, MB_BIRTH, MB_GENDER, MB_PH, MB_EMAIL, "
+				+ "MB_REGDATE, MB_STAT from member where MB_MANAGER='no'";
+		System.out.println("DAO 진입");
+		List list = new ArrayList();
+		int num=0;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				AdminBean adminBean= new AdminBean();
+				num++;
+				adminBean.setNum(Integer.toString(num));
+				System.out.println(Integer.toString(num));
+				adminBean.setMB_ID(rs.getString("MB_ID"));
+				adminBean.setMB_NAME(rs.getString("MB_NAME"));
+				adminBean.setMB_BIRTH(rs.getString("MB_BIRTH"));
+				adminBean.setMB_GENDER(rs.getString("MB_GENDER"));
+				adminBean.setMB_PH(rs.getString("MB_PH"));
+				adminBean.setMB_EMAIL(rs.getString("MB_EMAIL"));
+				adminBean.setMB_REGDATE(rs.getString("MB_REGDATE"));
+				adminBean.setMB_STAT(rs.getString("MB_STAT"));
+				list.add(adminBean);
+				
+				System.out.println(num+"Insert successful");
+				// 아이디 찾기 완료
+			} 
+			return list;
+		} catch (Exception e) {
+
+			System.out.println("findMyId Error : " + e);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
+		}
+		return null;
+	}
+
+	public int myPageAuth(AdminBean member) {
 		String sql_1 = "select MB_PW from MEMBER where MB_ID=?";
 		int result = -1;
 
@@ -272,29 +261,41 @@ public class AdminDAO {
 			pstmt = con.prepareStatement(sql_1);
 			pstmt.setString(1, member.getMB_ID());
 			rs = pstmt.executeQuery();
-			if(rs.next()){
-				if(rs.getString("MB_PW").equals(member.getMB_PW())){
-					result = 1; //일치
+			if (rs.next()) {
+				if (rs.getString("MB_PW").equals(member.getMB_PW())) {
+					result = 1; // 일치
 				} else {
 					result = 0;
 				}
 			} else {
-				result = -1; //아이디가 존재 x
+				result = -1; // 아이디가 존재 x
 			}
 		} catch (Exception e) {
-			System.out.println("myPageAuth Error : "+e);
+			System.out.println("myPageAuth Error : " + e);
 		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
 		}
-		
+
 		return result;
 	}
-	
-	public boolean joinMember(AdminBean member) throws SQLException{
+
+	public boolean joinMember(AdminBean member) throws SQLException {
 		String sql = "insert into MEMBER values(SEQ_member_num.nextval,?,?,?,?,?,?,?,?,'no')";
-		//System.out.println(member.toString());
+		// System.out.println(member.toString());
 		int result = 0;
 		try {
 			con = ds.getConnection();
@@ -312,18 +313,30 @@ public class AdminDAO {
 			pstmt.setString(7, member.getMB_EMAIL());
 			pstmt.setString(8, now);
 			result = pstmt.executeUpdate();
-			con.commit(); 
-			if(result!=0){
+			con.commit();
+			if (result != 0) {
 				return true;
 			}
 		} catch (Exception e) {
 			System.out.println("DB insert error");
-			con.rollback(); 
+			con.rollback();
 			e.printStackTrace();
 		} finally {
-			if(rs!=null) try { rs.close();} catch(SQLException ex){}
-			if(pstmt!=null) try { pstmt.close();} catch(SQLException ex){}
-			if(con!=null) try { con.close();} catch(SQLException ex){}
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
 		}
 		return false;
 	}
