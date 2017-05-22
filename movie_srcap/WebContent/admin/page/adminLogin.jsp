@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="../layout/header.jsp"></c:import>
-<form action="${PATH }/member_list.ad" method="post">
+<form action="${PATH }/adminLogin.ad" method="post">
 <div class="login_area">
 	<h2 class="login_title"><span class="icon_login"></span>Dashboard Login</h2>
 	<div class="login_list">

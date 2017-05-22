@@ -15,6 +15,9 @@ if (cookies != null && cookies.length > 0) {
 	}
 }
 
+String ms_seq = request.getParameter("ms_seq");
+String ms_id = request.getParameter("ms_id");
+
 %>
 <section class="content">
 	<h2 class="skip">ABOUT</h2>
@@ -37,6 +40,9 @@ if (cookies != null && cookies.length > 0) {
 							<input type="password" name="mb_pw" id="login_pw" required="" class="input-text" size="20" maxlength="20" placeholder="비밀번호">
 						</li>
 					</ul>
+					
+					<input type="hidden" value="<%=ms_seq %>" name="ms_seq" />
+					<input type="hidden" value="<%=ms_id %>" name="ms_id" />
 					<input type="submit" value="LOGIN" class="btn_login">
 				</div>
 				<div class="login_save">

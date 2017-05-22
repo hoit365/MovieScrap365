@@ -17,7 +17,7 @@
 						<div class="login_input clearfix">
 							<ul class="clear">
 								<li class="id">ID : ${mb_id }</li>
-								<li class="pw">
+								<li class="pw">PW : 
 									<label for="login_pw" class="skip">비밀번호<strong class="sound_only"> 필수</strong></label>
 									<input type="password" name="mb_pw" id="login_pw" required="" class="input-text" size="20" maxlength="20" placeholder="비밀번호">
 								</li>
