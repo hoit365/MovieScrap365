@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <% session.getAttribute("mb_id"); %>
+<c:import url="${URL }/layout/header_sub.jsp"></c:import>
 <script type="text/javascript">
 <%
 if(request.getAttribute("msg")!=null){
@@ -18,7 +19,6 @@ if(request.getAttribute("msg")!=null){
 }
 %>
 </script>
-<c:import url="${URL }/layout/header_sub.jsp"></c:import>
 <!-- 상단 시작 { -->
 <div class="header_top_wrap">
 	<div class="header_top clearfix">
