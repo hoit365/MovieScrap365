@@ -18,7 +18,9 @@ public class MovieMainRankAction implements MAction {
 		MovieDAO moviedao = MovieDAO.getInstance();
 		List movierankList = new ArrayList();
 		
-
+		
+		movierankList = moviedao.getRankList();
+		
 		
 		
 		request.setAttribute("movierankList", movierankList);
