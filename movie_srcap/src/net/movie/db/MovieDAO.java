@@ -573,7 +573,7 @@ public class MovieDAO {
 	//랭킹 리스트 보기
 		public List getRankList(){
 			String sql = "";
-			sql = "select * from MovieRank";
+			sql = "select * from MovieRank order by ms_cnt desc";
 			
 			List list = new ArrayList();
 			

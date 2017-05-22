@@ -66,11 +66,11 @@
 					<!-- 순위 -->
 					<div class="movie_lank_area">
 						<ul class="clear">
-						<% for(int i=0; i<3; i++){
+						<% for(int i=0; i<4; i++){
 							MovieBean ml = (MovieBean) movierankList.get(i);
 							%>
 							<li>
-								<span class="num"></span>
+								<span class="num"><%= i+1 %></span>
 								<span class="img"><img src="<%= ml.getMs_poster() %>" alt="" /></span>
 								<span class="tit ellipsis"><%= ml.getMs_title() %></span>
 								<span class="count"><%= ml.getMs_cnt() %></span>
