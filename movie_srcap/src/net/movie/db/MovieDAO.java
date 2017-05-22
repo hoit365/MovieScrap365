@@ -490,6 +490,7 @@ public class MovieDAO {
 		String sql = "";
 		
 		int result = 0;
+		int num = 1;
 
 		try {
 			connection();
@@ -498,20 +499,27 @@ public class MovieDAO {
 			
 			sql = "insert into MovieRank (ms_title, ms_poster, ms_seq, ms_id, ms_cnt)"
 					+ " values (?,?,?,?,?)";
-			pstmt = con.prepareStatement("sql");
-
+			pstmt = con.prepareStatement(sql);
+			
+			
+			System.out.println(movie.getMs_title());
+			System.out.println(movie.getMs_poster());
+			System.out.println(movie.getMs_seq());
+			System.out.println(movie.getMs_id());
 			
 			pstmt.setString(1, movie.getMs_title());
-			pstmt.setString(2, movie.getMs_poster());
-			pstmt.setString(3, movie.getMs_seq());
-			pstmt.setString(4, movie.getMs_id());
-			pstmt.setInt(5, 1);
+			pstmt.setString(2, movie.getMs_poster()+"");
+			pstmt.setString(3, movie.getMs_seq()+"");
+			pstmt.setString(4, movie.getMs_id()+"");
+			pstmt.setInt(5, num);
 			result = pstmt.executeUpdate();
+			
 			if(result != 0){
 				return true;
 			}
 		} catch (Exception e) {
 			System.out.println("MovieRankAdd Error : "+e);
+			e.printStackTrace();
 		} finally {
 			if(rs!=null) try{rs.close();} catch(SQLException e){}
 			if(pstmt!=null) try{pstmt.close();} catch(SQLException e){}

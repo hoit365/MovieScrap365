@@ -65,6 +65,8 @@ public class MovieScrapDeleteAction implements MAction {
 					out.println("alert('스크랩삭제성공');");
 					out.println("history.go(-1);");
 					out.println("</script>");
+					
+					moviedao.setMovieRankCntDown(ms_seq, ms_id);
 				}
 				
 				return null;
