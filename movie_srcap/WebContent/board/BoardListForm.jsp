@@ -20,7 +20,7 @@
 								<select name="opt" class="input-select" style="width: 100px">
 									<option value="0">제목</option>
 									<option value="1">내용</option>
-									<option value="2">작성자</option>
+									<option value="3">작성자</option>
 								</select>
 								<input type="text" size="20" name="condition" value="" placeholder="Search" />
 								<input type="submit" class="btn01" value="Search" />
@@ -31,8 +31,8 @@
 
 					<!-- 정렬 -->
 				<div class="sort_list">
-					<a href="" class="btn02 on">최신글</a>
-					<a href="" class="btn02">조회수</a>
+					<a href="${PATH }/BoardListAction.bo?bo_table=&opt=0&condition=%25&orderby=board_max_seq" class="btn02 on">최신글</a>
+					<a href="${PATH }/BoardListAction.bo?bo_table=&opt=0&condition=%25&orderby=board_max_ref" class="btn02">조회수</a>
 				</div>
 				<!-- //정렬 -->
 				<form method="post" name="frm">
@@ -64,7 +64,7 @@
 												<img src="img/reply_icon.gif">
 										</c:if>
 											<a href="BoardDetailAction.bo?num=${board.board_num}&pageNum=${spage}">${board.board_subject}</a></td>
-										<td>${board.board_id}</a></td>
+										<td>${board.board_id}</td>
 										<td>${board.board_date}</td>
 										<td>${board.board_count}</td>
 									</tr>
@@ -84,6 +84,7 @@
 			
 			<div id="pageForm"  class="page_area">
 				<c:if test="${startPage != 1}">
+				<%-- <c:if test="${startPage != 1}"> --%>
 				<a href='BoardListAction.bo?page=${startPage-1}'  class="page_prev" >이전</a>
 				</c:if>
 

@@ -29,7 +29,7 @@
 	<table width="700" border="3" bordercolor="lightgray" align="center">
 		<tr>
 			<td id="title">작성자</td>
-			<td>${sessionScope.sessionID}</td>
+			<td>${sessionScope.mb_id}</td>
 		</tr>
 			<tr>
 			<td id="title">

@@ -49,7 +49,7 @@
 			// 전송할 값을 변수에 담는다.	
 			var comment_num = "${comment.comment_num}";
 			var comment_board = "${comment.comment_board}";
-			var comment_id = "${sessionScope.sessionID}";
+			var comment_id = "${sessionScope.mb_id}";
 			var comment_content = form.comment_content.value
 			
 			if(!comment_content)

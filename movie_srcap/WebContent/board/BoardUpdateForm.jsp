@@ -32,7 +32,7 @@
 					<!-- 기타설정 -->
 					<div class="board_write_chk">
 						<ul class="clear list01">
-							<li><span class="tit">작성자</span> <span class="con">${id}</span>
+							<li><span class="tit">작성자</span> <span class="con">${board.board_id}</span>
 							</li>
 							<li><span class="tit">비밀번호</span>
 								<span class="con">
@@ -52,7 +52,7 @@
 					</div>
 					<div class="board_write">
 						<!-- board_write -->
-						<textarea name="bo_content" id="bo_content" width="100%" height="300px">${board.board_content}</textarea>
+						<textarea name="board_content" id="bo_content" width="100%" height="300px">${board.board_content}</textarea>
 					</div>
 					<!-- board_file -->
 					<div class="board_file">

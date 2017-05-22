@@ -27,24 +27,28 @@ public class BoardListAction implements Action
 		
 		String opt = request.getParameter("opt");
 		String condition = request.getParameter("condition");
+		String orderby = request.getParameter("orderby");
+		
 		
 		HashMap<String, Object> listOpt = new HashMap<String, Object>();
 		listOpt.put("opt", opt);
 		listOpt.put("condition", condition);
-		
+		listOpt.put("orderby", orderby);
 		BoardDAO dao = BoardDAO.getInstance();
 		int listCount = dao.getBoardListCount(listOpt);
 		
 		int maxPage = (int)(listCount/10.0 + 0.9);
 
-		if(spage > maxPage) spage = maxPage;
-		listOpt.put("start", spage*10-9);
+		if(spage > maxPage)
+			spage = maxPage;
+		listOpt.put("start", spage * 10 - 9);
 		
 		ArrayList<BoardBean> list =  dao.getBoardList(listOpt);
 	
-		int startPage = (int)(spage/5.0 + 0.8) * 5 - 4;
+		int startPage = (int) (spage/5.0 + 0.8) * 5 - 4;
 		int endPage = startPage + 4;
-		if(endPage > maxPage)	endPage = maxPage;
+		if (endPage > maxPage)
+			endPage = maxPage;
 		
 		request.setAttribute("spage", spage);
 		request.setAttribute("maxPage", maxPage);
@@ -53,10 +57,12 @@ public class BoardListAction implements Action
 
 		request.setAttribute("list", list);
 		
-		forward.setRedirect(false);
-		forward.setNextPath("BoardListForm.bo");
-		
-		return forward;
-	}
+		if (list.size() > 0)
+			forward.setRedirect(false);
+			else
+				forward.setRedirect(true);
+			forward.setNextPath("BoardListForm.bo");
 
+			return forward;
+	}
 }

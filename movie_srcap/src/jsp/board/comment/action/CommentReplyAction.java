@@ -16,7 +16,6 @@ public class CommentReplyAction implements Action
 	public ActionForward execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
-		// �Ķ���͸� �����´�.
 		int comment_num = Integer.parseInt(request.getParameter("comment_num"));
 		int comment_board = Integer.parseInt(request.getParameter("comment_board"));
 		String comment_id = request.getParameter("comment_id");
@@ -25,7 +24,7 @@ public class CommentReplyAction implements Action
 		CommentDAO dao = CommentDAO.getInstance();
 		
 		CommentBean comment = new CommentBean();	
-		comment.setComment_num(dao.getSeq());	// �������� ������ �����Ѵ�
+		comment.setComment_num(dao.getSeq());	
 		comment.setComment_board(comment_board);
 		comment.setComment_id(comment_id);
 		comment.setComment_content(comment_content);

@@ -20,36 +20,26 @@ public class CommentController extends HttpServlet
 	private static final long serialVersionUID = 1L;
 	private HashMap<String,Action> commandMap;
 	
-	/**
-	 * ÃÖÃÊ ½ÇÇà init
-	 */
 	public void init(ServletConfig config) throws ServletException {	
         loadProperties("jsp/board/comment/properties/CommentCommand");
     }
 
-	/**
-	 * ÇÁ·ÎÆÛÆ¼ ÆÄÀÏ¿¡¼­ Å°°ª°ú Å¬·¡½º Á¤º¸¸¦ ÃßÃâÇÏ¿© ±×°ÍÀ» Map¿¡ ÀúÀåÇÑ´Ù.
-	 * @param filePath ÇÁ·ÎÆÛÆ¼ ÆÄÀÏÀÇ °æ·Î
-	 */
 	private void loadProperties(String filePath) 
 	{
 		commandMap = new HashMap<String, Action>();
 		
 		ResourceBundle rb = ResourceBundle.getBundle(filePath);
-		Enumeration<String> actionEnum = rb.getKeys(); // Å°°ªÀ» °¡Á®¿Â´Ù.
+		Enumeration<String> actionEnum = rb.getKeys();
 		 
 		while (actionEnum.hasMoreElements()) 
 		{
-			// ¸í·É¾î¸¦ °¡Á®¿Â´Ù.
 			String command = actionEnum.nextElement(); 
-			// ¸í·É¾î¿¡ ÇØ´çÇÏ´Â Action Å¬·¡½º ÀÌ¸§À» °¡Á®¿Â´Ù.
 			String className = rb.getString(command); 
 			
 			try {
-				 Class actionClass = Class.forName(className); // Å¬·¡½º »ý¼º
-				 Action actionInstance = (Action)actionClass.newInstance(); // Å¬·¡½ºÀÇ °´Ã¼¸¦ »ý¼º
+				 Class actionClass = Class.forName(className); 
+				 Action actionInstance = (Action)actionClass.newInstance(); 
 				 
-				 // ¸Ê¿¡ ¸í·É¾î¿Í ActionÀ» ´ã´Â´Ù.
 				 commandMap.put(command, actionInstance);
 				
 			} catch (Exception e) {
@@ -57,61 +47,34 @@ public class CommentController extends HttpServlet
 			}
 		}
 	}
-
-	/**
-	 * GET ¹æ½ÄÀÏ °æ¿ì doGet()
-	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 			doProcess(request,response);
 	}  	
-		
-	/**
-	 * POST ¹æ½ÄÀÏ °æ¿ì doPost()
-	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 			doProcess(request,response);
 	}
-
-	/**
-	 * ¸í·É¾î¿¡ µû¸¥ ÇØ´ç ActionÀ» ÁöÁ¤ÇØ ÁØ´Ù.
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
 	private void doProcess(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		// ³Ñ¾î¿Â Ä¿¸Çµå¸¦ ÃßÃâÇÏ´Â °úÁ¤
 		String requestURI = request.getRequestURI();
 		int cmdIdx = requestURI.lastIndexOf("/") + 1;
 		String command = requestURI.substring(cmdIdx);
 
-		// URI, command È®ÀÎ
-		// System.out.println("requestURI : "+requestURI);
-		//System.out.println("Board cmd : "+command);
-		
 		ActionForward forward = null;
 		Action action = null;
 		
 		try {
-			// ¸Ê¿¡¼­ ¸í·É¾î¿¡ ÇØ´çÇÏ´Â ActionÀ» °¡Á®¿Â´Ù.
 			action = commandMap.get(command);
 			
 			if (action == null) {
-                System.out.println("¸í·É¾î : "+command+"´Â Àß¸øµÈ ¸í·ÉÀÔ´Ï´Ù.");
+                System.out.println("ï¿½ï¿½É¾ï¿½ : "+command+"ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
                 return;
             }
 
 			forward = action.execute(request, response);
 			
-			/*
-			 * È­¸éÀÌµ¿ - isRedirext() °ª¿¡ µû¶ó sendRedirect ¶Ç´Â forward¸¦ »ç¿ë
-			 * sendRedirect : »õ·Î¿î ÆäÀÌÁö¿¡¼­´Â request¿Í response°´Ã¼°¡ »õ·Ó°Ô »ý¼ºµÈ´Ù.
-			 * forward : ÇöÀç ½ÇÇàÁßÀÎ ÆäÀÌÁö¿Í forwad¿¡ ÀÇÇØ È£ÃâµÉ ÆäÀÌÁö´Â request¿Í response °´Ã¼¸¦ °øÀ¯
-			 */
 			if(forward != null){
 				if (forward.isRedirect()) {
 					response.sendRedirect(forward.getNextPath());
