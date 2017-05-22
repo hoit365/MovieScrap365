@@ -16,15 +16,15 @@ public class MovieMainRankAction implements MAction {
 		MActionForward forward = new MActionForward();
 		
 		MovieDAO moviedao = MovieDAO.getInstance();
-		List ranklist = new ArrayList();
+		List movierankList = new ArrayList();
 		
 
 		
 		
-		request.setAttribute("ranklist", ranklist);
+		request.setAttribute("movierankList", movierankList);
 		
 		forward.setRedirect(false);
-		forward.setPath("./movie/MovieRank.jsp");
+		forward.setPath("./movie/movie_rank.jsp");
 		
 		return forward;
 	}

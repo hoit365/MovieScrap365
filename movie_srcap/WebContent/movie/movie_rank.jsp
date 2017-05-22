@@ -1,7 +1,13 @@
+<%@page import="net.movie.db.MovieBean"%>
+<%@page import="java.util.List"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:import url="../layout/header.jsp"></c:import>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+	List movierankList = (List) request.getAttribute("movierankList");
+%>
 <section class="content">
 <div class="area_right topic_area">
 			<h2 class="title_main">Today Topic</h2>
@@ -44,7 +50,7 @@
 								<span class="num">4.</span>
 								<span class="img"><img src="${IMG_PATH }/poster/poster (5).jpg" alt="" /></span>
 								<span class="tit ellipsis">히말라야</span>
-							</li>														
+							</li>
 						</ul>
 					</div>
 					<!-- //순위 -->
@@ -60,13 +66,16 @@
 					<!-- 순위 -->
 					<div class="movie_lank_area">
 						<ul class="clear">
+						<% for(int i=0; i<3; i++){
+							MovieBean ml = (MovieBean) movierankList.get(i);
+							%>
 							<li>
 								<span class="num"></span>
-								<span class="img"><img src="${IMG_PATH }/poster/poster (1).jpg" alt="" /></span>
-								<span class="tit ellipsis"></span>
-								<span class="count"></span>
+								<span class="img"><img src="<%= ml.getMs_poster() %>" alt="" /></span>
+								<span class="tit ellipsis"><%= ml.getMs_title() %></span>
+								<span class="count"><%= ml.getMs_cnt() %></span>
 							</li>
-							
+						<% } %>
 						</ul>
 					</div>
 					<!-- //순위 -->
