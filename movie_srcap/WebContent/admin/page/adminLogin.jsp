@@ -7,8 +7,8 @@
 	<h2 class="login_title"><span class="icon_login"></span>Dashboard Login</h2>
 	<div class="login_list">
 		<ul class="clear">
-			<li class="icon_id"><span>ID</span><input type="text" placeholder="id" name="mb_id"></li>
-			<li class="icon_pw"><span>PW</span><input type="password" placeholder="password" name="mb_pw"></li>
+			<li class="icon_id"><span>ID</span><input type="text" placeholder="id" name="mb_id"class="updateTable"></li>
+			<li class="icon_pw"><span>PW</span><input type="password" placeholder="password" name="mb_pw"class="updateTable"></li>
 		</ul>
 		<div class="login_btn">
 			<input type="submit" class="btn_login" value="LOGIN">
