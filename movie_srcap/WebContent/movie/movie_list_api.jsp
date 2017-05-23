@@ -8,10 +8,8 @@
 
 <c:import url="../layout/header.jsp"></c:import>
 <%
-	
 	List movieList = (List) request.getAttribute("movielist");
 	int nowpage = ((Integer)request.getAttribute("page")).intValue();
-	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
 	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
 	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
 %>
@@ -88,27 +86,19 @@
 
 			<!-- 페이징 처리 -->
 			<div class="page_area">
-				<% if( nowpage <= 1){ %>
-					<a href="" class="page_prev">이전</a>
-				<% } else { %>
-					<a href="./MovieScrapList.mv?stx=${param.stx }&se_page=<%= nowpage-1 %>" class="page_prev">이전</a>
-				<% } %>
-				<% for (int a=startpage; a<=endpage; a++){
+			<c:if test="${nowpage > 1 }">
+				<a href="./MovieScrapList.mv?stx=${param.stx }&page=<%= nowpage-1 %>" class="page_prev">이전</a>
+			</c:if>
+				<% for ( int a = 1; a <= endpage; a++ ){
 					if(a==nowpage){ %>
-						<%= a %>
+					<em><%= a %></em>
 					<% } else { %>
-						<a href="./MovieScrapList.mv?stx=${param.stx }&se_page=<%= a %>" class="page_prev"><%=a %></a>
+						<a href="./MovieScrapList.mv?stx=${param.stx }&page=<%=a%>"><%=a%></a>
 					<% } %>
 				<% } %>
-				<% if(nowpage>=maxpage){ %>
-					<a href="" class="page_next">다음</a>
-				<% } else { %>
-					<a href="./MovieScrapList.mv?stx=${param.stx }&se_page=<%= nowpage+1 %>" class="page_prev">다음</a>
+				<% if(nowpage<endpage){ %>
+					<a href="./MovieScrapList.mv?stx=${param.stx }&page=<%= nowpage+1 %>" class="page_prev">다음</a>
 				<% } %>
-			</div>
-			
-			<div class="page_area">
-				
 			</div>
 		</div>
 	</div>
