@@ -184,6 +184,8 @@ html, body{width:100%;position:relative;z-index:1;}
 		.main_bottom_menu ul li a{display:block;line-height:50px;font-size:14px;color:#a78d8d;text-align:center;}
 		.main_bottom_menu .btn_facebook{}
 		
+
+		
 		/* movie_list_area */
 		.movie_list_area ul li{overflow:hidden;float:left;width:300px;height:420px}
 		.movie_list_area ul li a{display:block;text-align:center;background:#efefef;opacity:0.8;background:#000}
@@ -444,6 +446,20 @@ html, body{width:100%;position:relative;z-index:1;}
 	.movie_btn a span{color:#ff0000}
 	.movie_content{margin-top:20px}
 	.movie_content .tab_content{padding:20px;line-height:1.8em;font-size:15px;}
+	
+	/* movie_scrap_list */
+	.movie_scrap_list{margin-top:20px}
+	.movie_scrap_list ul li {position:relative;padding:10px 10px 10px 130px;background:#efefef;height:120px;border-bottom:1px solid #fff;border-radius:5px}
+	.movie_scrap_list ul li .img{overflow:hidden;position:absolute;left:10px;top:10px; bottom:10px;width:100px;}
+	.movie_scrap_list ul li .img img{width:100%}
+	.movie_scrap_list ul li .img img.no_img{margin-top:-12px}
+	.movie_scrap_list ul li .info{padding-top:10px}
+	.movie_scrap_list ul li .info dt{font-size:20px;padding:10px 0}
+	.movie_scrap_list ul li .info dd{font-size:15px;line-height:1.4em}
+	.movie_scrap_list ul li .movie_btn{position:absolute;right:20px;top:30px}
+	.movie_scrap_list ul li .movie_btn a{display:inline-block;width:100px;height:80px;line-height:80px;border-radius:0}
+	.movie_scrap_list ul li.empty_list{padding:20px}
+	.movie_scrap_list ul li.empty_list p{text-align:center;line-height:120px;font-size:20px}
 	
 	/* review */
 	.tit_review{font-size:20px}
