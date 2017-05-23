@@ -13,21 +13,18 @@ public class MovieAPI {
 	private String stx = "";
 	
 	private String sort = "";
-	private String se_page = "";
-	
+	private int page = 1;
+
 	private String search2 = null;
 	private String stx2 = null;
 	private final String API_KEY = "DE611070AD8C97B8FAE32AFB839EF9CA3E764F776407F406616C6FF56A2";// 애플리케이션 클라이언트 아이디값";
-	
-	
-	
-	
-	public String getSe_page() {
-		return se_page;
+
+	public int getPage() {
+		return page;
 	}
 
-	public void setSe_page(String se_page) {
-		this.se_page = se_page;
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 	public String getSort() {
@@ -80,51 +77,22 @@ public class MovieAPI {
 			urlBuilder.append(URLEncoder.encode("collection","utf-8")+"="+URLEncoder.encode("kmdb_new", "utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode("ServiceKey", "utf-8")+"="+URLEncoder.encode(API_KEY, "utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode(search, "utf-8")+"="+URLEncoder.encode(stx,"utf-8"));
+			urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("100","utf-8"));
 			
-			if(se_page.equals("")){
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("100","utf-8"));
-			} else if( se_page.equals("1")){
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("0","utf-8"));
-			} else if (se_page.equals("2")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-			} else if (se_page.equals("3")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("20","utf-8"));
-			} else if (se_page.equals("4")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("30","utf-8"));
-			} else if (se_page.equals("5")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("40","utf-8"));
-			} else if (se_page.equals("6")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("50","utf-8"));
-			} else if (se_page.equals("7")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("60","utf-8"));
-			} else if (se_page.equals("8")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("70","utf-8"));
-			} else if (se_page.equals("9")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("80","utf-8"));
-			} else if (se_page.equals("10")) {
-				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("90","utf-8"));
-			}
-			
+			//페이징
+			urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode(""+(this.page-1)*10,"utf-8"));
 			if( search2 != null && stx2 != null){				
 				urlBuilder.append("&"+URLEncoder.encode(search2, "utf-8")+"="+URLEncoder.encode(stx2,"utf-8"));
 				urlBuilder.append("&"+URLEncoder.encode("detail=Y", "utf-8"));
 			}
-			
+			//정렬
 			if ( sort.equals("prodYear")){
 				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode("prodYear","utf-8"));
 			} else if (sort.equals("title")){
 				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode("title","utf-8"));
 			}
+			
+			System.out.println(urlBuilder.toString());
 			
 			URL url = new URL(urlBuilder.toString());
 			HttpURLConnection con = (HttpURLConnection)url.openConnection();
