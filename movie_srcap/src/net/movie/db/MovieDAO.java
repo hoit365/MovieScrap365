@@ -571,17 +571,15 @@ public class MovieDAO {
 	
 	
 	//랭킹 리스트 보기
-		public List getRankList(){
+		public ArrayList<MovieBean> getRankList(){
 			String sql = "";
 			sql = "select * from MovieRank order by ms_cnt desc";
-			
-			List list = new ArrayList();
-			
+			ArrayList<MovieBean> list = new ArrayList<>();
+
 			try {
 				connection();
 				con = ds.getConnection();
 				pstmt = con.prepareStatement(sql);
-				
 				rs=pstmt.executeQuery();
 				
 				while(rs.next()){

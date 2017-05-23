@@ -185,6 +185,9 @@ html, body{width:100%;position:relative;z-index:1;}
 		.main_bottom_menu .btn_facebook{}
 		
 
+		/* topic_area */
+		.topic_area .magazine_area img{max-width:100%}
+		.topic_area .magazine_area .tit{padding:20px 0;text-align:center;font-size:20px}
 		
 		/* movie_list_area */
 		.movie_list_area ul li{overflow:hidden;float:left;width:300px;height:420px}
@@ -220,6 +223,7 @@ html, body{width:100%;position:relative;z-index:1;}
 		.movie_lank_area ul li .num{display:block;font-weight:bold;font-size:14px;color:#444;position:absolute;left:10px;top:10px;width:20px;line-height:50px;}
 		.movie_lank_area ul li .img{overflow:hidden;border-radius:25px;top:50%;margin-top:-20px;display:block;position:absolute;left:35px;width:50px;height:50px;}
 		.movie_lank_area ul li .img img{max-width:100%;}
+		.movie_lank_area ul li .img .no_img{display:block;width:50px;line-height:50px;text-align:center;height:50px;background:#eee}
 		.movie_lank_area ul li .tit {font-size:15px;line-height:50kpx;}
 		.movie_lank_area ul li .count{display:block;text-align:center;font-weight:bold;position:absolute;font-size:18px;color:#7e7e7e;right:0;top:10px;width:80px;line-height:50px;}
 
