@@ -37,7 +37,7 @@ public class MovieScrapReviewDeleteAction implements MAction {
 			System.out.println("리뷰 삭제 성공");
 			
 			forward.setRedirect(true);
-			forward.setPath("./MovieScrapView.mv?id="+id+"&seq="+seq);
+			forward.setPath("./MovieScrapView.mv?click=true&id="+id+"&seq="+seq+"&isWriter=true");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
