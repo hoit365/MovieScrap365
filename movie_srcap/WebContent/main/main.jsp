@@ -112,23 +112,33 @@
 				<div class="tab_content" id="tab_magazine">
 					<!-- 매거진 -->
 					<div class="magazine_area">
-						매거진매거진
+						<h4 class="tit">추천 매거진</h4>
+						<img src="${IMG_PATH}/poster/mazine_01.jpg" alt="" />
 					</div>
 					<!-- //매거진 -->
 				</div>
 				<div class="tab_content" id="tab_moviescrap">
 					
-					<%-- <jsp:include page="../movie/movie_rank.jsp"></jsp:include> --%>
-					
 					<!-- 순위 -->
 					<div class="movie_lank_area">
 						<ul class="clear">
+							<c:forEach items="${movieLankList }" varStatus="state" var="mv">
 							<li>
-								<span class="num">1.</span>
-								<span class="img"><img src="${IMG_PATH }/poster/poster (1).jpg" alt="" /></span>
-								<span class="tit ellipsis">센과치히로의 행방불명</span>
-								<span class="count">20,555</span>
+								<span class="num">${state.count }.</span>
+								<c:choose>
+								<c:when test="${empty mv.ms_poster}">
+								<span class="img"><span class="no_img">NO</span></span>
+								</c:when>
+								<c:otherwise>
+								<span class="img"><img src="${mv.ms_poster}" alt="" /></span>
+								</c:otherwise>
+								
+								</c:choose>
+								
+								<span class="tit ellipsis">${mv.ms_title}</span>
+								<span class="count">${mv.ms_cnt}</span>
 							</li>
+							</c:forEach>
 						</ul>
 					</div>
 					<!-- //순위 -->
