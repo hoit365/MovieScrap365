@@ -15,8 +15,8 @@
 					<div class="search_area" id="searchForm">
 						<!-- <form action="BoardListForm.bo" name="fboardSearch" method="get"> -->
 						<form>
-							<input type="hidden" name="bo_table" value="" />
 							<div>
+								<input type="hidden" name="orderby" value="board_max_seq" />
 								<select name="opt" class="input-select" style="width: 100px">
 									<option value="0">제목</option>
 									<option value="1">내용</option>
@@ -31,8 +31,19 @@
 
 					<!-- 정렬 -->
 				<div class="sort_list">
-					<a href="${PATH }/BoardListAction.bo?bo_table=&opt=0&condition=%25&orderby=board_max_seq" class="btn02 on">최신글</a>
-					<a href="${PATH }/BoardListAction.bo?bo_table=&opt=0&condition=%25&orderby=board_max_ref" class="btn02">조회수</a>
+					<c:choose>
+						<c:when test="${condition != null }">
+							<a href="${PATH }/BoardListAction.bo?&opt=${opt }&condition=${condition }&orderby=board_max_seq" class="btn02 on">최신글</a>
+							<a href="${PATH }/BoardListAction.bo?&opt=${opt }&condition=${condition }&orderby=board_max_ref" class="btn02">조회수</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${PATH }/BoardListAction.bo?&orderby=board_max_seq" class="btn02 on">최신글</a>
+							<a href="${PATH }/BoardListAction.bo?&orderby=board_max_ref" class="btn02">조회수</a>
+						</c:otherwise>
+					</c:choose>
+				
+				
+					
 				</div>
 				<!-- //정렬 -->
 				<form method="post" name="frm">
@@ -83,19 +94,43 @@
 			</div>
 			
 			<div id="pageForm"  class="page_area">
-				<c:if test="${startPage != 1}">
-				<%-- <c:if test="${startPage != 1}"> --%>
-				<a href='BoardListAction.bo?page=${startPage-1}'  class="page_prev" >이전</a>
-				</c:if>
+			
+			<c:choose>
+				<c:when test="${condition != null }">
+					<c:if test="${startPage != 1}">
+					<%-- <c:if test="${startPage != 1}"> --%>
+					<a href='BoardListAction.bo?page=${startPage-1}&opt=${opt }&condition=${condition }&orderby=${orderby}'  class="page_prev" >이전</a>
+					</c:if>
 
-				<c:forEach var="pageNum" begin="${startPage}" end="${endPage}">
-				<c:if test="${pageNum == spage}"><em>${pageNum}</em></c:if>
-				<c:if test="${pageNum != spage}"><a href='BoardListAction.bo?page=${pageNum}'>${pageNum}</a></c:if>
-				</c:forEach>
+					<c:forEach var="pageNum" begin="${startPage}" end="${endPage}">
+					<c:if test="${pageNum == spage}"><em>${pageNum}</em></c:if>
+					<c:if test="${pageNum != spage}"><a href='BoardListAction.bo?page=${pageNum}&opt=${opt }&condition=${condition }&orderby=${orderby}'>${pageNum}</a></c:if>
+					</c:forEach>
 
-				<c:if test="${endPage != maxPage }">
-					<a href='BoardListAction.bo?page=${endPage+1 }'  class="page_next">다음</a>
-				</c:if>
+					<c:if test="${endPage != maxPage }">
+					<a href='BoardListAction.bo?page=${endPage+1 }&opt=${opt }&condition=${condition }&orderby=${orderby}'  class="page_next">다음</a>
+					</c:if>	
+				</c:when>
+				<c:otherwise>	
+					<c:if test="${startPage != 1}">
+					<%-- <c:if test="${startPage != 1}"> --%>
+					<a href='BoardListAction.bo?page=${startPage-1}&orderby=${orderby}'  class="page_prev" >이전</a>
+					</c:if>
+
+					<c:forEach var="pageNum" begin="${startPage}" end="${endPage}">
+					<c:if test="${pageNum == spage}"><em>${pageNum}</em></c:if>
+					<c:if test="${pageNum != spage}"><a href='BoardListAction.bo?page=${pageNum}&orderby=${orderby}'>${pageNum}</a></c:if>
+					</c:forEach>
+
+					<c:if test="${endPage != maxPage }">
+					<a href='BoardListAction.bo?page=${endPage+1 }&orderby=${orderby}'  class="page_next">다음</a>
+					</c:if>					
+				</c:otherwise>
+			</c:choose>
+			
+			
+			
+				
 			</div>
 
 		</div>

@@ -25,10 +25,16 @@ public class BoardListAction implements Action
 
 		if(page != null && !page.equals(""))	spage = Integer.parseInt(page);
 		
+		
 		String opt = request.getParameter("opt");
 		String condition = request.getParameter("condition");
 		String orderby = request.getParameter("orderby");
 		
+		if(orderby == null || orderby.equals("")) {
+			orderby = "board_max_seq";
+		}
+		
+		System.out.println("opt : "+opt+"///condition: "+condition);
 		
 		HashMap<String, Object> listOpt = new HashMap<String, Object>();
 		listOpt.put("opt", opt);
@@ -54,8 +60,11 @@ public class BoardListAction implements Action
 		request.setAttribute("maxPage", maxPage);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
-
+		request.setAttribute("orderby", orderby); // 추가추가
+		request.setAttribute("condition", condition);
+		request.setAttribute("opt",opt);
 		request.setAttribute("list", list);
+
 		
 		if (list.size() > 0)
 			forward.setRedirect(false);
