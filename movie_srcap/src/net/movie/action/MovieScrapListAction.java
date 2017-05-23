@@ -28,12 +28,15 @@ public class MovieScrapListAction implements MAction {
 		request.setCharacterEncoding("utf-8");
 		String stx = request.getParameter("stx");
 		String sort= request.getParameter("sort");
-		System.out.println(sort);
+		String se_page = request.getParameter("se_page");
+		
+		
 		MActionForward mforward = new MActionForward();
 		
 		MovieAPI mApi = new MovieAPI();
 		mApi.setStx("");
 		mApi.setSearch("title");
+		mApi.setSe_page("");
 		if( stx != null ){
 			mApi.setStx(stx);
 		}
@@ -44,6 +47,29 @@ public class MovieScrapListAction implements MAction {
 			mApi.setSort("prodYear");
 		} else if ( sort.equals("title")){
 			mApi.setSort("title");
+		}
+		if(se_page == null){
+			mApi.setSe_page("");
+		} else if( se_page.equals("1")){
+			mApi.setSe_page("1");
+		} else if ( se_page.equals("2")){
+			mApi.setSe_page("2");
+		} else if ( se_page.equals("3")){
+			mApi.setSe_page("3");
+		} else if ( se_page.equals("4")){
+			mApi.setSe_page("4");
+		} else if ( se_page.equals("5")){
+			mApi.setSe_page("5");
+		} else if ( se_page.equals("6")){
+			mApi.setSe_page("6");
+		} else if ( se_page.equals("7")){
+			mApi.setSe_page("7");
+		} else if ( se_page.equals("8")){
+			mApi.setSe_page("8");
+		} else if ( se_page.equals("9")){
+			mApi.setSe_page("9");
+		} else if ( se_page.equals("10")){
+			mApi.setSe_page("10");
 		}
 		
 		MovieDAO mDao = MovieDAO.getInstance();

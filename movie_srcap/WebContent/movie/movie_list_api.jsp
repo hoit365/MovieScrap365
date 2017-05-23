@@ -41,7 +41,7 @@
 			<!-- 뿌려줄 곳 -->
 			<div class="movie_list">
 				<ul class="clear">
-				<c:forEach items="${movieList }" var="movie">
+				<c:forEach items="${movieList }" var="movie" begin="0" end="9">
 				<li>
 					<div class="img">
 						<a href="MovieScrapView.mv?seq=${movie.movieSeq }&id=${movie.movieId }">
@@ -91,20 +91,24 @@
 				<% if( nowpage <= 1){ %>
 					<a href="" class="page_prev">이전</a>
 				<% } else { %>
-					<a href="./MovieScrapList.mv?page=<%= nowpage-1 %>" class="page_prev">이전</a>
+					<a href="./MovieScrapList.mv?stx=${param.stx }&se_page=<%= nowpage-1 %>" class="page_prev">이전</a>
 				<% } %>
 				<% for (int a=startpage; a<=endpage; a++){
 					if(a==nowpage){ %>
 						<%= a %>
 					<% } else { %>
-						<a href="./MovieScrapList.mv?page=<%= a %>" class="page_prev"><%=a %></a>
+						<a href="./MovieScrapList.mv?stx=${param.stx }&se_page=<%= a %>" class="page_prev"><%=a %></a>
 					<% } %>
 				<% } %>
 				<% if(nowpage>=maxpage){ %>
 					<a href="" class="page_next">다음</a>
 				<% } else { %>
-					<a href="./MovieScrapList.mv?page=<%= nowpage+1 %>" class="page_prev">다음</a>
+					<a href="./MovieScrapList.mv?stx=${param.stx }&se_page=<%= nowpage+1 %>" class="page_prev">다음</a>
 				<% } %>
+			</div>
+			
+			<div class="page_area">
+				
 			</div>
 		</div>
 	</div>
