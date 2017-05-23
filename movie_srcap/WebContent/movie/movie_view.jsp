@@ -8,7 +8,16 @@
 		$('html, body').scrollTop(top);
 		tabProduct($(".movie_content"), 2);
 	}
+	
+
 </script>
+<c:if test="${param.click == true }">
+<script>
+	$(document).ready(function(){
+		tabreviewClick();
+	});
+</script>
+</c:if>
 <!-- content -->
 <section class="content">
 	<div class="content_area">
@@ -28,7 +37,6 @@
 						begin="0" end="0">
 						<img src="${poster}" alt="" />
 					</c:forTokens>
-
 				</div>
 				<ul class="clear list01 movie_detail_area">
 					<li>${api }</li>
@@ -36,16 +44,15 @@
 					</li>
 					<li><span class="tit">감독</span> <span class="con">${movie.director }</span>
 					</li>
-					<li><span class="tit">출연</span> <span class="con"> <c:forEach
-								items="${movie.actor }" var="actor" varStatus="status">
-								<c:if test="${status.index != 0}">,</c:if>
+					<li><span class="tit">출연</span> <span class="con">
+					<c:forEach items="${movie.actor }" var="actor" varStatus="status">
+						<c:if test="${status.index != 0}">,</c:if>
 						${actor }
-						</c:forEach>
+					</c:forEach>
 					</span></li>
 					<li><span class="tit">등급</span> <span class="con">${movie.rating }</span>
 					</li>
-					<li><span class="tit">상영시간</span> <span class="con">${movie.runtime }
-							분</span></li>
+					<li><span class="tit">상영시간</span> <span class="con">${movie.runtime } 분</span></li>
 				</ul>
 			</div>
 			<div class="btn_area_center movie_btn">
@@ -85,6 +92,7 @@
 			<div class="movie_content">
 				<div class="tab">
 					<div class="tab_area_wrap tab">
+						
 						<ul class="clearfix clear tab_title">
 							<li><a href="#tab_main">주요정보</a></li>
 							<li><a href="#tab_actor">배우제작진</a></li>
@@ -93,140 +101,147 @@
 
 						<div class="tab_content" id="tab_main">${movie.plot }</div>
 						<div class="tab_content" id="tab_actor">${movie.actor }</div>
+						<div class="tab_content" id="tab_review">
 						<form action="./MovieReview.mv?id=${param.id }&seq=${param.seq}"
 							method="post" id="frm">
-							<div class="tab_content" id="tab_review">
-
-
-
-								<div class="btn_area_center movie_btn" id="register">
-									<a
-										href="./MovieReviewExistence.mv?id=${param.id }&seq=${param.seq}&click=true">평점
-										등록 </a>
-								</div>
-
-								<c:if test="${click == true }">
-									<script>
-										$("#register").hide();
-									</script>
+							<c:choose>
+								<c:when test="${click == true }">
 									<c:choose>
-										<c:when test="${isWriter == true }">
-											<c:out value="이미 한줄평을 등록하셨습니다."></c:out>
-											<table>
+									<c:when test="${isWriter == true }">
+										<c:forEach items="${reviewlist }" var="review">
+											<c:if test="${review.mb_id == sessionScope.mb_id && param.seq == review.ms_seq}">
+												<div class="review_notice">
+												<div class="info">
+												이미 한줄평을 등록하셨습니다.(
+												<span>등록일 : ${review.ms_regdate } </span>
+												<span>평점 : ${review.ms_myRating } </span>
+												<span>작성내용 : ${review.ms_review } )</span>
+												<a href="./MovieReviewDelete.mv?click=true&id=${param.id }&seq=${param.seq}&mb_id=${sessionScope.mb_id}" class="btn02">삭제</a>
+												</div>
+												</div>
+											</c:if>
+										</c:forEach>
+										
+										<h3 class="tit_review">[REVIEW WRITE]</h3>
+										<input type="hidden" name="ms_title" value="${movie.title }" />
+										<div class="clearfix review_write_top">
+											<span class="tit">${movie.title } 리뷰작성</span>
+											<span class="rat">
+											
+											<label for="ms_myRating">평점&nbsp;&nbsp;</label>
+											<select id="ms_myRating" name="ms_myRating" class="input-select" style="width:60px">
+												<option value="0">0</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5" selected="selected">5</option>
+											</select>
+											</span>
+										</div>
+										<textarea name="ms_review" id="ms_review" rows="5"></textarea>
+										<div class="btn_area_right">
+											<a href="javascript:;" class="btn01" onclick="document.getElementById('frm').submit();">저장</a>
+											<a href="javascript:;" class="btn02" onclick="document.getElementById('frm').reset()">다시작성</a>
+										</div>
+										
+										
+									</c:when>
+									<c:otherwise>
+										<h3 class="tit_review">[REVIEW WRITE]</h3>
+										<input type="hidden" name="ms_title" value="${movie.title }" />
+										<div class="clearfix review_write_top">
+											<span class="tit">${movie.title } 리뷰작성</span>
+											<span class="rat">
+											
+											<label for="ms_myRating">평점&nbsp;&nbsp;</label>
+											<select id="ms_myRating" name="ms_myRating" class="input-select" style="width:60px">
+												<option value="0">0</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5" selected="selected">5</option>
+											</select>
+											</span>
+										</div>
+										<textarea name="ms_review" id="ms_review" rows="5"></textarea>
+										<div class="btn_area_right">
+											<a href="javascript:;" class="btn01" onclick="document.getElementById('frm').submit();">저장</a>
+											<a href="javascript:;" class="btn02" onclick="document.getElementById('frm').reset()">다시작성</a>
+										</div>
+									</c:otherwise>
+								</c:choose>
+								</c:when>
+								<c:otherwise>
+									<div class="btn_area_center movie_btn" id="register">
+									<a href="./MovieReviewExistence.mv?id=${param.id }&seq=${param.seq}&click=true">평점 등록 </a>
+									</div>	
+								</c:otherwise>
+							</c:choose>
 
-												<c:forEach items="${reviewlist }" var="review">
-													<c:if test="${review.mb_id == sessionScope.mb_id && param.seq == review.ms_seq}">
-														<thead>
-															<tr>
-																<td colspan="2">${review.ms_regdate }</td>
-																<td><a
-																	href="./MovieReviewDelete.mv?id=${param.id }&seq=${param.seq}&mb_id=${sessionScope.mb_id}">ⓧ
-																		× x X</a></td>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>${review.ms_myRating }</td>
-																<td colspan="2">${review.ms_review }</td>
-															</tr>
-														</tbody>
-													</c:if>
-												</c:forEach>
-
-											</table>
-
-
-										</c:when>
-										<c:otherwise>
-											<input type="hidden" name="ms_title" value="${movie.title }" />
-											<textarea name="ms_review" id="ms_review" cols="50" rows="17"></textarea>
-											<br>
-											<div>
-												<label for="ms_myRating">평점&nbsp;&nbsp;</label> <select
-													id="ms_myRating" name="ms_myRating">
-													<option value="0">0</option>
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option value="3">3</option>
-													<option value="4">4</option>
-													<option value="5" selected="selected">5</option>
-												</select>
-											</div>
-											<br>
-											<ul class="clearfix clear tab_title">
-												<li><a href="#"
-													onclick="document.getElementById('frm').submit();">저장</a></li>
-												<li><a href="#"
-													onclick="document.getElementById('frm').reset()">다시작성</a></li>
-											</ul>
-										</c:otherwise>
-									</c:choose>
-								</c:if>
-							</div>
 						</form>
+						<!-- review_list -->
+						<div class="review_list ">
+						<h3 class="tit_review">[REVIEW LIST]</h3>
+						<ul class="clear clearfix">
+						<c:forEach items="${reviewlist }" var="review">
+							<c:if test="${review.ms_title eq movie.title }">
+							<li>
+							<div class="review_top">
+								<span>평점 : ${review.ms_myRating }</span>
+								<span>ID : ${review.mb_id }</span>
+								<span>등록일 : ${review.ms_regdate }</span>
+							</div>
+							<div class="review_body">
+								${review.ms_review }
+							</div>
+							</li>
+							</c:if>
+						</c:forEach>
+						</ul>
+						</div>
+						<!-- //review_list -->
+						<div id="pageForm" class="page_area">
+							<c:choose>
+								<c:when test="${spage > 1 }">
+									<a href='MovieScrapView.mv?click=true&id=${param.id }&seq=${param.seq}&page=${spage-1}'
+										class="page_prev">이전</a>
+								</c:when>
+								<c:otherwise>
+									<a href='#' class="page_prev">이전</a>
+								</c:otherwise>
+							</c:choose>
+			
+							<c:forEach var="pageNum" begin="${startPage}" end="${endPage}">
+								<c:choose>
+									<c:when test="${pageNum == spage}">
+										<em>${pageNum }</em>
+									</c:when>
+									<c:otherwise>
+										<a href='MovieScrapView.mv?click=true&id=${param.id }&seq=${param.seq}&page=${pageNum}'>${pageNum}</a>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+			
+							<c:choose>
+								<c:when test="${spage < maxPage }">
+									<a
+										href='MovieScrapView.mv?click=true&id=${param.id }&seq=${param.seq}&page=${spage+1}'
+										class="page_next">다음</a>
+								</c:when>
+								<c:otherwise>
+									<a href='#' class="page_next">다음</a>
+								</c:otherwise>
+							</c:choose>
+			
+						</div>
+						</div>
+						
+					
+		
 					</div>
 				</div>
-			</div>
-
-
-			<div class="review_list">
-				<table>
-					<c:forEach items="${reviewlist }" var="review">
-						<c:if test="${review.ms_title eq movie.title }">
-							<thead>
-								<tr>
-									<td>${review.ms_myRating }</td>
-									<td>${review.mb_id }</td>
-									<td>${review.ms_regdate }
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td colspan="3">${review.ms_review }</td>
-								</tr>
-							</tbody>
-						</c:if>
-					</c:forEach>
-
-				</table>
-			</div>
-
-
-			<div id="pageForm" class="page_area">
-				<c:choose>
-					<c:when test="${spage > 1 }">
-						<a
-							href='MovieScrapView.mv?id=${param.id }&seq=${param.seq}&page=${spage-1}'
-							class="page_prev">이전</a>
-					</c:when>
-					<c:otherwise>
-						<a href='#' class="page_prev">이전</a>
-					</c:otherwise>
-				</c:choose>
-
-				<c:forEach var="pageNum" begin="${startPage}" end="${endPage}">
-					<c:choose>
-						<c:when test="${pageNum == spage}">
-							<em>${pageNum }</em>
-						</c:when>
-						<c:otherwise>
-							<a
-								href='MovieScrapView.mv?id=${param.id }&seq=${param.seq}&page=${pageNum}'>${pageNum}</a>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-
-				<c:choose>
-					<c:when test="${spage < maxPage }">
-						<a
-							href='MovieScrapView.mv?id=${param.id }&seq=${param.seq}&page=${spage+1}'
-							class="page_next">다음</a>
-					</c:when>
-					<c:otherwise>
-						<a href='#' class="page_next">다음</a>
-					</c:otherwise>
-				</c:choose>
-
 			</div>
 		</div>
 	</div>

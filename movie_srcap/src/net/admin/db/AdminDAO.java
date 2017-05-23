@@ -202,6 +202,7 @@ public class AdminDAO {
 		System.out.println("DAO 진입");
 		List list = new ArrayList();
 		int num=0;
+		int num_ten=0;
 		
 		try {
 

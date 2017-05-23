@@ -67,7 +67,8 @@ create table MovieRank(
 );
 
 
-select * from MovieRank;
+select * from MovieRank order by ms_cnt desc;
+
 delete from MovieRank;
 
 insert into MovieRank (ms_title, ms_poster, ms_seq, ms_id, ms_cnt) values ('a','b','c','d',1);

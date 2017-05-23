@@ -63,6 +63,7 @@ public class MovieAPI {
 				urlBuilder.append("&"+URLEncoder.encode(search2, "utf-8")+"="+URLEncoder.encode(stx2,"utf-8"));
 				urlBuilder.append("&"+URLEncoder.encode("detail=Y", "utf-8"));
 			}
+			urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode("prodYear","utf-8"));
 			
 			URL url = new URL(urlBuilder.toString());
 			HttpURLConnection con = (HttpURLConnection)url.openConnection();

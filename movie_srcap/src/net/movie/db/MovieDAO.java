@@ -570,6 +570,42 @@ public class MovieDAO {
 	
 	
 	
+	//랭킹 리스트 보기
+		public List getRankList(){
+			String sql = "";
+			sql = "select * from MovieRank order by ms_cnt desc";
+			
+			List list = new ArrayList();
+			
+			try {
+				connection();
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(sql);
+				
+				rs=pstmt.executeQuery();
+				
+				while(rs.next()){
+					MovieBean movie = new MovieBean();
+					movie.setMs_title(rs.getString("ms_title"));
+					movie.setMs_poster(rs.getString("ms_poster"));
+					movie.setMs_seq(rs.getString("ms_seq"));
+					movie.setMs_id(rs.getString("ms_id"));
+					movie.setMs_cnt(rs.getInt("ms_cnt"));
+					
+					list.add(movie);
+				}
+				return list;
+			} catch (Exception e) {
+				System.out.println("getScrapList Error : "+e);
+			} finally {
+				if(rs!=null) try{rs.close();} catch(SQLException e){}
+				if(pstmt!=null) try{pstmt.close();} catch(SQLException e){}
+				if(con!=null) try{con.close();} catch(SQLException e){}
+			}
+			return null;
+		}
+	
+	
 	//영화 API 파싱 리스트 
 	public ArrayList<Movie> getMovieList(String data){
 		ArrayList<Movie> list = new ArrayList<>();

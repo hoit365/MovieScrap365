@@ -190,6 +190,8 @@ html, body{width:100%;position:relative;z-index:1;}
 		.movie_list_area ul li a:hover{opacity:1}
 		.movie_list_area ul li a img{max-width:100%}
 		
+		.mv_top_area{}
+		
 		/* movie_detail_area */
 
 		/* movie_detail_top */
@@ -206,6 +208,7 @@ html, body{width:100%;position:relative;z-index:1;}
 		.tab_area_wrap .tab_title li a.on{border-color:#ff0000}
 		.tab_area_wrap{border:1px solid #575757;border-radius:5px}
 		.tab_content{height:342px;position:relative;}
+		.movie_area .tab_content{height:430px}
 		
 		/* movie_lank_area */
 		.movie_lank_area{}
@@ -439,8 +442,25 @@ html, body{width:100%;position:relative;z-index:1;}
 	.movie_content{margin-top:20px}
 	.movie_content .tab_content{padding:20px;line-height:1.8em;font-size:15px;}
 	
-	/* sort_list */
-	.sort_list{padding:20px 0;text-align:right;}
+	/* review */
+	.tit_review{font-size:20px}
+	.review_write_top{padding-bottom:10px}
+	.review_write_top .tit{display:block;float:left;line-height:38px}
+	.review_write_top .rat{display:block;float:right}
+	.review_list li{margin:4px 0;padding:10px 20px;border:1px solid #eee;border-radius:10xp;background:#efefef}
+	.review_list ul{padding-top:10px}
+	.review_list .review_top{border-bottom:1px solid #aaa;font-size:12px}
+	.review_list .review_top span{display:inline-block;padding-right:20px}
+	.review_notice{margin-bottom:30px}	
+	.review_notice .info span{display:inline-block;padding-right:10px}
+	.review_notice .info, .review_notice .txt , .review_notice .con{text-align:center}
+	.review_notice{padding:10px 20px;border:1px solid #eee;font-size:13px}
+	
+	/* mylist_area */
+	.mv_top_area{padding:20px 0;}
+	.mv_top_area .mylist_area{float:left}
+	.mv_top_area .sort_list{float:right}
+	.sort_list{text-align:right;}
 	.sort_list .btn02.on{background:#eee;}
 	
 @media only screen

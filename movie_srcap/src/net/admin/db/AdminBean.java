@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class AdminBean {
 
 	private String num;
+	private String num_ten;
 	private String MB_ID;
 	private String MB_PW;
 	private String MB_NAME;
@@ -102,6 +103,14 @@ public class AdminBean {
 
 	public void setNum(String num) {
 		this.num = num;
+	}
+
+	public String getNum_ten() {
+		return num_ten;
+	}
+
+	public void setNum_ten(String num_ten) {
+		this.num_ten = num_ten;
 	}
 
 }

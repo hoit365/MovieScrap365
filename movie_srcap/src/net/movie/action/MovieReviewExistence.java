@@ -50,7 +50,7 @@ public class MovieReviewExistence implements MAction {
 		System.out.println("isWriter : "+isWriter);
 		
 		forward.setRedirect(false);
-		forward.setPath("./MovieScrapView.mv?id="+id+"&seq="+seq+"&isWriter="+isWriter+"&click"+click);
+		forward.setPath("./MovieScrapView.mv?id="+id+"&seq="+seq+"&isWriter="+isWriter+"&click="+click);
 		
 		return forward;
 	}
