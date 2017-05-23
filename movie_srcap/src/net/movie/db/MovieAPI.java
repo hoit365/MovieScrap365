@@ -13,6 +13,7 @@ public class MovieAPI {
 	private String stx = "";
 	
 	private String sort = "";
+	private String se_page = "";
 	
 	private String search2 = null;
 	private String stx2 = null;
@@ -21,6 +22,14 @@ public class MovieAPI {
 	
 	
 	
+	public String getSe_page() {
+		return se_page;
+	}
+
+	public void setSe_page(String se_page) {
+		this.se_page = se_page;
+	}
+
 	public String getSort() {
 		return sort;
 	}
@@ -72,12 +81,40 @@ public class MovieAPI {
 			urlBuilder.append("&"+URLEncoder.encode("ServiceKey", "utf-8")+"="+URLEncoder.encode(API_KEY, "utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode(search, "utf-8")+"="+URLEncoder.encode(stx,"utf-8"));
 			
-			if( stx != null){
+			if(se_page.equals("")){
 				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("100","utf-8"));
-				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("0","utf-8"));
-			} else {
+			} else if( se_page.equals("1")){
 				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("0","utf-8"));
+			} else if (se_page.equals("2")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+			} else if (se_page.equals("3")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("20","utf-8"));
+			} else if (se_page.equals("4")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("30","utf-8"));
+			} else if (se_page.equals("5")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("40","utf-8"));
+			} else if (se_page.equals("6")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("50","utf-8"));
+			} else if (se_page.equals("7")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("60","utf-8"));
+			} else if (se_page.equals("8")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("70","utf-8"));
+			} else if (se_page.equals("9")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("80","utf-8"));
+			} else if (se_page.equals("10")) {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("90","utf-8"));
 			}
+			
 			if( search2 != null && stx2 != null){				
 				urlBuilder.append("&"+URLEncoder.encode(search2, "utf-8")+"="+URLEncoder.encode(stx2,"utf-8"));
 				urlBuilder.append("&"+URLEncoder.encode("detail=Y", "utf-8"));
