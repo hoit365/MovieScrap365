@@ -24,7 +24,13 @@ public class AdminMemberViewAction implements Action{
 			pageing = adminDAO.totalSearchList(adminBean);
 			pageing = pageMaker.makeTotalPage(pageing);
 			pageing = pageMaker.makeStoEPage(pageing);
-			request.setAttribute("pageing", pageing);
+			request.setAttribute("page", pageing.getPage());
+			request.setAttribute("countList", pageing.getCountList());
+			request.setAttribute("countPage", pageing.getCountPage());
+			request.setAttribute("totalCount", pageing.getTotalCount());
+			request.setAttribute("totalPage", pageing.getTotalPage());
+			request.setAttribute("startPage", pageing.getStartPage());
+			request.setAttribute("endPage", pageing.getEndPage());
 			result = adminDAO.adminMemberView();
 		
 		}
@@ -58,6 +64,7 @@ public class AdminMemberViewAction implements Action{
 			request.setAttribute("totalPage", pageing.getTotalPage());
 			request.setAttribute("startPage", pageing.getStartPage());
 			request.setAttribute("endPage", pageing.getEndPage());
+			
 			result = adminDAO.adminMemberView(pageing);
 		}
 		
