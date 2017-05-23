@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class AdminBean {
 
-	private String num;
-	private String num_ten;
+	//데이터 전송 영역 변수 선언 시작
+	private String NUM;
 	private String MB_ID;
 	private String MB_PW;
 	private String MB_NAME;
@@ -16,9 +16,29 @@ public class AdminBean {
 	private String MB_REGDATE;
 	private String MB_MANAGER;
 	private String MB_STAT;
-
+	//데이터 전송 영역 변수 선언 종료
+	
+	//페이지 영역 변수 선언 시작
+	private int page;
+	private int countList;
+	private int countPage;
+	private int totalCount;
+	private int totalPage;
+	private int startPage;
+	private int endPage;
+	//페이지 영역 변수 선언 종료
+	
+	//데이터 전송 영역 메소드 선언 시작
 	public String getMB_ID() {
 		return MB_ID;
+	}
+
+	public String getNUM() {
+		return NUM;
+	}
+
+	public void setNUM(String nUM) {
+		NUM = nUM;
 	}
 
 	public void setMB_ID(String mB_ID) {
@@ -96,21 +116,72 @@ public class AdminBean {
 	public void setMB_STAT(String mB_STAT) {
 		MB_STAT = mB_STAT;
 	}
+	//데이터 전송 영역 메소드 선언 종료
 
-	public String getNum() {
-		return num;
+	//페이지 영역 메소드 선언 시작
+	public int getPage() {
+		return page;
 	}
 
-	public void setNum(String num) {
-		this.num = num;
+	public void setPage(int page) {
+		this.page = page;
 	}
 
-	public String getNum_ten() {
-		return num_ten;
+	public int getCountList() {
+		countList = 5;
+		return countList;
 	}
 
-	public void setNum_ten(String num_ten) {
-		this.num_ten = num_ten;
+	public int getCountPage() {
+		countPage=5;
+		return countPage;
 	}
 
+	public void setCountPage(int countPage) {
+		this.countPage = countPage;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public int getTotalPage() {
+		return totalPage;
+	}
+
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
+	}
+
+	public int getStartPage() {
+		return startPage;
+	}
+
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+
+	public int getEndPage() {
+		return endPage;
+	}
+
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+	//페이지 영역 메소드 선언 종료
+
+	@Override
+	public String toString() {
+		return "AdminBean [NUM=" + NUM + ", MB_ID=" + MB_ID + ", MB_PW=" + MB_PW + ", MB_NAME=" + MB_NAME
+				+ ", MB_BIRTH=" + MB_BIRTH + ", MB_GENDER=" + MB_GENDER + ", MB_PH=" + MB_PH + ", MB_EMAIL=" + MB_EMAIL
+				+ ", MB_REGDATE=" + MB_REGDATE + ", MB_MANAGER=" + MB_MANAGER + ", MB_STAT=" + MB_STAT + ", page="
+				+ page + ", countList=" + countList + ", countPage=" + countPage + ", totalCount=" + totalCount
+				+ ", totalPage=" + totalPage + ", startPage=" + startPage + ", endPage=" + endPage + "]";
+	}
+	
+	
 }
