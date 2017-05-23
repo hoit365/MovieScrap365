@@ -55,8 +55,11 @@ public class MovieScrapListAction implements MAction {
 
 		int limit = 10;
 		int listcount = movieList.size();
-		int endpage = (int)((double) listcount/limit+0.95);
-		int startpage = (((int)((double)page/10+0.9))-1)*10+1;
+		int maxpage = (int)((double) listcount/limit+0.95);;
+		int endpage = maxpage;
+		int startpage = (((int)((double)1/10+0.9))-1)*10+1;
+		
+		if(endpage>startpage+10-1) endpage=startpage+10-1;
 
 		
 		request.setAttribute("page", page);

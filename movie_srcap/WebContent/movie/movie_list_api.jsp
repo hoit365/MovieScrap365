@@ -21,9 +21,9 @@
 			
 			<!-- 검색 -->
 			<form action="MovieScrapList.mv" method="get">
-			<label class="tit" for="stx">검색할 영화제목을 입력해주세요.</label>
-			<input type="text" name="stx" id="stx" value="" size="40" />
-			<input type="submit"  class="btn01" value="영화검색" />
+				<label class="tit" for="stx">검색할 영화제목을 입력해주세요.</label>
+				<input type="text" name="stx" id="stx" value="" size="40" />
+				<input type="submit"  class="btn01" value="영화검색" />
 			</form>
 			
 			<div class="clearfix mv_top_area">
@@ -86,17 +86,18 @@
 
 			<!-- 페이징 처리 -->
 			<div class="page_area">
-			<c:if test="${nowpage > 1 }">
+			<% if(nowpage > 1 ){ %>
 				<a href="./MovieScrapList.mv?stx=${param.stx }&page=<%= nowpage-1 %>" class="page_prev">이전</a>
-			</c:if>
+			<% } %>
 				<% for ( int a = 1; a <= endpage; a++ ){
 					if(a==nowpage){ %>
-					<em><%= a %></em>
+						<em><%= a %></em>
 					<% } else { %>
 						<a href="./MovieScrapList.mv?stx=${param.stx }&page=<%=a%>"><%=a%></a>
 					<% } %>
 				<% } %>
-				<% if(nowpage<endpage){ %>
+				<% if(nowpage>=10){ %>
+				<% } else { %>
 					<a href="./MovieScrapList.mv?stx=${param.stx }&page=<%= nowpage+1 %>" class="page_prev">다음</a>
 				<% } %>
 			</div>
