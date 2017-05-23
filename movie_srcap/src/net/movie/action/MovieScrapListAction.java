@@ -27,6 +27,8 @@ public class MovieScrapListAction implements MAction {
 		
 		request.setCharacterEncoding("utf-8");
 		String stx = request.getParameter("stx");
+		String sort= request.getParameter("sort");
+		System.out.println(sort);
 		MActionForward mforward = new MActionForward();
 		
 		MovieAPI mApi = new MovieAPI();
@@ -36,9 +38,30 @@ public class MovieScrapListAction implements MAction {
 			mApi.setStx(stx);
 		}
 		
+		if(sort == null){
+			mApi.setSort("");
+		} else if( sort.equals("prodYear")){
+			mApi.setSort("prodYear");
+		} else if ( sort.equals("title")){
+			mApi.setSort("title");
+		}
+		
 		MovieDAO mDao = MovieDAO.getInstance();
 		ArrayList<Movie> movieList = mDao.getMovieList(mApi.getResult());
 		
+		int page = 1;
+		int limit = 10;
+		int listcount = movieList.size();
+		int maxpage = (int)((double) listcount/limit+0.95);
+		int startpage = (((int)((double)page/10+0.9))-1)*10+1;
+		int endpage = maxpage;
+		
+		if(endpage>startpage+10-1) endpage = startpage+10-1;
+		
+		request.setAttribute("page", page);
+		request.setAttribute("maxpage", maxpage);
+		request.setAttribute("startpage", startpage);
+		request.setAttribute("endpage", endpage);
 		request.setAttribute("movieList", movieList);
 		
 		mforward.setRedirect(false);

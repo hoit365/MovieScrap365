@@ -1,10 +1,20 @@
+<%@page import="net.movie.db.MovieBean"%>
+<%@page import="java.util.List"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:import url="../layout/header.jsp"></c:import>
-
+<%
+	
+	List movieList = (List) request.getAttribute("movielist");
+	int nowpage = ((Integer)request.getAttribute("page")).intValue();
+	int maxpage = ((Integer)request.getAttribute("maxpage")).intValue();
+	int startpage = ((Integer)request.getAttribute("startpage")).intValue();
+	int endpage = ((Integer)request.getAttribute("endpage")).intValue();
+%>
 <!-- content -->
 <section class="content">
 	<div class="content_area">
@@ -24,10 +34,8 @@
 				</div>
 				<!-- 오름차순, 내림차순 -->
 				<div class="sort_list" id="orderby">
-					<a href="MovieScrapList.mv?sort=title&stx=${param.stx }" class="btn02 on">개봉순</a>
-					<a href="" class="btn02">영화순</a>
-					<a href="" class="btn02">평점순</a>
-					<a href="" class="btn02">스크랩순</a>
+					<a href="MovieScrapList.mv?sort=prodYear&stx=${param.stx }" class="btn02 on">개봉순</a>
+					<a href="MovieScrapList.mv?sort=title&stx=${param.stx }" class="btn02">영화순</a>
 				</div>
 			</div>
 			<!-- 뿌려줄 곳 -->
@@ -70,7 +78,6 @@
 								<a href="MovieScrapView.mv?seq=${movie.movieSeq }&id=${movie.movieId }">자세히보기</a>
 								<a href="MovieScrapAdd.mv?seq=${movie.movieSeq }&id=${movie.movieId }">스크랩하기</a>
 								<a href="BoardListAction.bo">토론하기</a>
-								<a href="MovieMainRank.mv">123</a>
 							</dd>
 						</dl>
 					</div>
@@ -81,12 +88,23 @@
 
 			<!-- 페이징 처리 -->
 			<div class="page_area">
-				<a href="" class="page_prev">이전</a>
-				<em>1</em>
-				<a href="">2</a>
-				<a href="">3</a>
-				<a href="">4</a>
-				<a href="" class="page_next">다음</a>
+				<% if( nowpage <= 1){ %>
+					<a href="" class="page_prev">이전</a>
+				<% } else { %>
+					<a href="./MovieScrapList.mv?page=<%= nowpage-1 %>" class="page_prev">이전</a>
+				<% } %>
+				<% for (int a=startpage; a<=endpage; a++){
+					if(a==nowpage){ %>
+						<%= a %>
+					<% } else { %>
+						<a href="./MovieScrapList.mv?page=<%= a %>" class="page_prev"><%=a %></a>
+					<% } %>
+				<% } %>
+				<% if(nowpage>=maxpage){ %>
+					<a href="" class="page_next">다음</a>
+				<% } else { %>
+					<a href="./MovieScrapList.mv?page=<%= nowpage+1 %>" class="page_prev">다음</a>
+				<% } %>
 			</div>
 		</div>
 	</div>

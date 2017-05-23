@@ -12,10 +12,23 @@ public class MovieAPI {
 	private String search = "title";
 	private String stx = "";
 	
+	private String sort = "";
+	
 	private String search2 = null;
 	private String stx2 = null;
 	private final String API_KEY = "DE611070AD8C97B8FAE32AFB839EF9CA3E764F776407F406616C6FF56A2";// 애플리케이션 클라이언트 아이디값";
 	
+	
+	
+	
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
 	public String getStx() {
 		return stx;
 	}
@@ -58,12 +71,23 @@ public class MovieAPI {
 			urlBuilder.append(URLEncoder.encode("collection","utf-8")+"="+URLEncoder.encode("kmdb_new", "utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode("ServiceKey", "utf-8")+"="+URLEncoder.encode(API_KEY, "utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode(search, "utf-8")+"="+URLEncoder.encode(stx,"utf-8"));
-
+			
+			if( stx != null){
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("100","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode("0","utf-8"));
+			} else {
+				urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("10","utf-8"));
+			}
 			if( search2 != null && stx2 != null){				
 				urlBuilder.append("&"+URLEncoder.encode(search2, "utf-8")+"="+URLEncoder.encode(stx2,"utf-8"));
 				urlBuilder.append("&"+URLEncoder.encode("detail=Y", "utf-8"));
 			}
-			urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode("prodYear","utf-8"));
+			
+			if ( sort.equals("prodYear")){
+				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode("prodYear","utf-8"));
+			} else if (sort.equals("title")){
+				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode("title","utf-8"));
+			}
 			
 			URL url = new URL(urlBuilder.toString());
 			HttpURLConnection con = (HttpURLConnection)url.openConnection();
