@@ -17,16 +17,19 @@
 			<input type="text" name="stx" id="stx" value="" size="40" />
 			<input type="submit"  class="btn01" value="영화검색" />
 			</form>
-			<a href="MovieMyList.mv" class="btn01">MY LIST</a>
 			
-			<!-- 오름차순, 내림차순 -->
-			<div class="sort_list" id="orderby">
-				<a href="" class="btn02 on">개봉순</a>
-				<a href="" class="btn02">영화순</a>
-				<a href="" class="btn02">평점순</a>
-				<a href="" class="btn02">스크랩순</a>
+			<div class="clearfix mv_top_area">
+				<div class="mylist_area">
+					<a href="MovieMyList.mv" class="btn01">MY LIST</a>
+				</div>
+				<!-- 오름차순, 내림차순 -->
+				<div class="sort_list" id="orderby">
+					<a href="MovieScrapList.mv?sort=title&stx=${param.stx }" class="btn02 on">개봉순</a>
+					<a href="" class="btn02">영화순</a>
+					<a href="" class="btn02">평점순</a>
+					<a href="" class="btn02">스크랩순</a>
+				</div>
 			</div>
-
 			<!-- 뿌려줄 곳 -->
 			<div class="movie_list">
 				<ul class="clear">

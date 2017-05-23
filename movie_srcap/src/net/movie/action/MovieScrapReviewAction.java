@@ -44,12 +44,11 @@ public class MovieScrapReviewAction implements MAction{
 			result = moviedao.MSReview(moviedata);
 			if(result == false){
 				System.out.println("리뷰 실패");
-				return null;
+			}else{
+				System.out.println("리뷰 성공");
 			}
-			System.out.println("리뷰 성공");
-			
 			forward.setRedirect(true);
-			forward.setPath("./MovieScrapView.mv?id="+id+"&seq="+seq);
+			forward.setPath("./MovieScrapView.mv?click=true&id="+id+"&seq="+seq);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
