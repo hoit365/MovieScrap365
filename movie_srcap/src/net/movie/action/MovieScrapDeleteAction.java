@@ -21,8 +21,11 @@ public class MovieScrapDeleteAction implements MAction {
 		MActionForward forward = new MActionForward();
 		
 		HttpSession session = request.getSession();
-		String mb_id = (String) session.getAttribute("mb_id");
+		String mb_id = session.getAttribute("mb_id") == null ? null : (String) session.getAttribute("mb_id");
 		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+
 		boolean result = false;
 		boolean isScrapWriter = false;
 		
@@ -32,49 +35,29 @@ public class MovieScrapDeleteAction implements MAction {
 			//seq - movieSeq / id - movieid 값 받음
 			String ms_seq = request.getParameter("seq") == null ? "" : request.getParameter("seq");
 			String ms_id = request.getParameter("id") == null ? "" : request.getParameter("id");
-			
+			//String p = request.getParameter("p") == null ? "list" : request.getParameter("p");
 			
 			moviedata.setMb_id(mb_id);
 			moviedata.setMs_seq(ms_seq);
 			moviedata.setMs_id(ms_id);
 			
+
+			
 			if(moviedao.MSScrapDeleteCheck(mb_id, ms_seq, ms_id)){
-				System.out.println("스크랩안됨!!!");
-				response.setContentType("text/html;charset=utf-8");
-				PrintWriter out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('아직 스크랩 안한 영화입니다.');");
-				out.println("history.go(-1);");
-				out.println("</script>");
-				out.close();
-				return null;
-				
+				out.print("스크랩 하지 않은 영화입니다.");
 			} else {
-			
 				result = moviedao.MSScrapDelete(moviedata);
-				
-				
 				if(result == false){
-					System.out.println("스크랩 삭제 실패 !!");
-					return null;
+					out.print("스크랩 삭제 실패.");
 				} else {
-					System.out.println("스크랩 삭제 성공!!!");
-					response.setContentType("text/html;charset=utf-8");
-					PrintWriter out = response.getWriter();
-					out.println("<script>");
-					out.println("alert('스크랩삭제성공');");
-					out.println("history.go(-1);");
-					out.println("</script>");
-					
-					moviedao.setMovieRankCntDown(ms_seq, ms_id);
+					out.print("스크랩 삭제 성공.");
 				}
-				
-				return null;
-			
 			}
+			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 }

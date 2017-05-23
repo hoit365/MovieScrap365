@@ -44,13 +44,13 @@ if(request.getAttribute("msg")!=null){
 				<%if(session.getAttribute("mb_id") != null) { %>
 				<li class="welcome_text"><%out.print(session.getAttribute("mb_id"));%> 님 환영합니다.</li>
 				<li class="first"><a href="${PATH }/logout.me" id="logout">LOGOUT</a></li>
-				<li><a href="${PATH }/memberCheckPass.me">MYPAGE</a></li>		
+				<li><a href="${PATH }/memberCheckPass.me">MYPAGE</a></li>
+				<li><a href="${PATH }/MovieMyList.mv">MY SCRAP</a></li>
 				<%} else{%>
 				<li class="first"><a href="${PATH }/member/loginForm.jsp">LOGIN</a></li>
 				<li><a href="${PATH }/member/joinIntro.jsp">JOIN</a></li>
 				<%} %>
-				<li><a href="${PATH }/index.jsp">HOME</a></li>	
-				
+				<li><a href="${PATH }/index.jsp">HOME</a></li>
 			</ul>
 		</div>
 		<!-- //글로벌메뉴 -->
