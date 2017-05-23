@@ -121,6 +121,8 @@ public class BoardDAO
         String condition = (String)listOpt.get("condition"); // 검색내용
         String orderby = (String) listOpt.get("orderby"); // 검색분류기준
         
+        System.out.println("orderby : "+orderby);
+        
         int start = (Integer)listOpt.get("start"); // 현재 페이지번호
         
         try {
@@ -128,20 +130,33 @@ public class BoardDAO
             StringBuffer sql = new StringBuffer();
             
             // 글목록 전체를 보여줄 때
-            if(opt == null)
+            if(opt == null || opt.equals(""))
             {
                 // BOARD_RE_REF(그룹번호)의 내림차순 정렬 후 동일한 그룹번호일 때는
                 // BOARD_RE_SEQ(답변글 순서)의 오름차순으로 정렬 한 후에
                 // 10개의 글을 한 화면에 보여주는(start번째 부터 start+9까지) 쿼리
                 // desc : 내림차순, asc : 오름차순 ( 생략 가능 )
-                sql.append("select * from ");
+            	
+            	sql.append("select * from ");
                 sql.append("(select rownum rnum, BOARD_NUM, BOARD_ID, BOARD_SUBJECT");
                 sql.append(", BOARD_CONTENT, BOARD_FILE, BOARD_COUNT, BOARD_RE_REF");
                 sql.append(", BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_DATE ");
                 sql.append("FROM");
-                sql.append(" (select * from MEMBER_BOARD order by BOARD_RE_REF desc, BOARD_RE_SEQ asc)) ");
-                sql.append("where rnum>=? and rnum<=?");
                 
+            	if(orderby == null) {        		
+            		sql.append(" (select * from MEMBER_BOARD order by BOARD_RE_REF desc, BOARD_RE_SEQ asc)) ");
+            		sql.append("where rnum>=? and rnum<=?");
+	            
+            	} else if(orderby.equals("board_max_ref")) {
+                     sql.append(" (select * from MEMBER_BOARD order by BOARD_COUNT desc, BOARD_RE_REF desc, BOARD_RE_SEQ asc)) ");
+     	             sql.append("where rnum>=? and rnum<=?");
+     	             
+            	} else if(orderby.equals("board_max_seq")) {
+                    sql.append(" (select * from MEMBER_BOARD order by BOARD_DATE desc, BOARD_RE_REF desc, BOARD_RE_SEQ asc)) ");
+    	             sql.append("where rnum>=? and rnum<=?");
+    	             
+            	}
+            	               
                 pstmt = conn.prepareStatement(sql.toString());
                 pstmt.setInt(1, start);
                 pstmt.setInt(2, start+9);
@@ -150,17 +165,29 @@ public class BoardDAO
                 sql.delete(0, sql.toString().length());
             }
             else if(opt.equals("0")) // 제목으로 검색
-            {
+            {           	
+            	sql.append("select * from ");
+                sql.append("(select rownum rnum, BOARD_NUM, BOARD_ID, BOARD_SUBJECT");
+                sql.append(", BOARD_CONTENT, BOARD_FILE, BOARD_DATE, BOARD_COUNT");
+                sql.append(", BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ ");
+                sql.append("FROM ");
+                sql.append("(select * from MEMBER_BOARD where BOARD_SUBJECT like ? ");
+                
 				if (orderby == null) {
             	
-	                sql.append("select * from ");
-	                sql.append("(select rownum rnum, BOARD_NUM, BOARD_ID, BOARD_SUBJECT");
-	                sql.append(", BOARD_CONTENT, BOARD_FILE, BOARD_DATE, BOARD_COUNT");
-	                sql.append(", BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ ");
-	                sql.append("FROM ");
-	                sql.append("(select * from MEMBER_BOARD where BOARD_SUBJECT like ? ");
 	                sql.append("order BY BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
 	                sql.append("where rnum>=? and rnum<=?");
+	                
+				} else if(orderby.equals("board_max_ref")) {
+					sql.append("order BY BOARD_COUNT desc, BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
+	                sql.append("where rnum>=? and rnum<=?");
+	                
+				} else if(orderby.equals("board_max_seq")) {
+					sql.append("order BY BOARD_DATE desc, BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
+	                sql.append("where rnum>=? and rnum<=?");
+	                
+				}
+					
 	                
 	                pstmt = conn.prepareStatement(sql.toString());
 	                pstmt.setString(1, "%"+condition+"%");
@@ -168,81 +195,70 @@ public class BoardDAO
 	                pstmt.setInt(3, start+9);
 	                
 	                sql.delete(0, sql.toString().length());
-				}else
-				{
-	                sql.append("select * from ");
-	                sql.append("(select rownum rnum, BOARD_NUM, BOARD_ID, BOARD_SUBJECT");
-	                sql.append(", BOARD_CONTENT, BOARD_FILE, BOARD_DATE, BOARD_COUNT");
-	                sql.append(", BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ ");
-	                sql.append("FROM ");
-					if (orderby.equals("board_max_seq")) {
-						sql.append("MEMBER_BOARD  ");
-						sql.append("order BY BOARD_DATE desc) ");
-		                pstmt = conn.prepareStatement(sql.toString());
-
-					} else if (orderby.equals("board_max_ref")) {
-						sql.append("MEMBER_BOARD ");
-						sql.append("order BY BOARD_COUNT desc) ");
-					}
-	                pstmt = conn.prepareStatement(sql.toString());
-
-                 sql.delete(0, sql.toString().length());
-				}
             }
             else if(opt.equals("1")) // 내용으로 검색
             {
-                sql.append("select * from ");
+            	sql.append("select * from ");
                 sql.append("(select rownum rnum, BOARD_NUM, BOARD_ID, BOARD_SUBJECT");
                 sql.append(", BOARD_CONTENT, BOARD_FILE, BOARD_DATE, BOARD_COUNT");
                 sql.append(", BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ ");
                 sql.append("FROM ");
                 sql.append("(select * from MEMBER_BOARD where BOARD_CONTENT like ? ");
-                sql.append("order BY BOARD_RE_REF desc, BOARD_RE_SEQ asc)) ");
-                sql.append("where rnum>=? and rnum<=?");
                 
-                pstmt = conn.prepareStatement(sql.toString());
-                pstmt.setString(1, "%"+condition+"%");
-                pstmt.setInt(2, start);
-                pstmt.setInt(3, start+9);
-                
-                sql.delete(0, sql.toString().length());
+				if (orderby == null) {
+            	
+	                sql.append("order BY BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
+	                sql.append("where rnum>=? and rnum<=?");
+	                
+				} else if(orderby.equals("board_max_ref")) {
+					sql.append("order BY BOARD_COUNT desc, BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
+	                sql.append("where rnum>=? and rnum<=?");
+	                
+				} else if(orderby.equals("board_max_seq")) {
+					sql.append("order BY BOARD_DATE desc, BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
+	                sql.append("where rnum>=? and rnum<=?");
+	                
+				}
+					
+	                
+	                pstmt = conn.prepareStatement(sql.toString());
+	                pstmt.setString(1, "%"+condition+"%");
+	                pstmt.setInt(2, start);
+	                pstmt.setInt(3, start+9);
+	                
+	                sql.delete(0, sql.toString().length());
             }
             else if(opt.equals("3")) // 글쓴이로 검색
             {
-                sql.append("select * from ");
-                sql.append("(select rownum rnum, BOARD_NUM, BOARD_ID, BOARD_SUBJECT");
-                sql.append(", BOARD_CONTENT, BOARD_FILE, BOARD_DATE, BOARD_COUNT");
-                sql.append(", BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ ");
-                sql.append("FROM ");
-                sql.append("(select * from MEMBER_BOARD where BOARD_ID like ? ");
-                sql.append("order BY BOARD_RE_REF desc, BOARD_RE_SEQ asc)) ");
-                sql.append("where rnum>=? and rnum<=?");
-                
-                pstmt = conn.prepareStatement(sql.toString());
-                pstmt.setString(1, "%"+condition+"%");
-                pstmt.setInt(2, start);
-                pstmt.setInt(3, start+9);
-                
-                sql.delete(0, sql.toString().length());
-            }
-            else {
             	sql.append("select * from ");
                 sql.append("(select rownum rnum, BOARD_NUM, BOARD_ID, BOARD_SUBJECT");
                 sql.append(", BOARD_CONTENT, BOARD_FILE, BOARD_DATE, BOARD_COUNT");
                 sql.append(", BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ ");
                 sql.append("FROM ");
                 sql.append("(select * from MEMBER_BOARD where BOARD_ID like ? ");
-                sql.append("order BY BOARD_RE_REF desc, BOARD_RE_SEQ asc)) ");
-                sql.append("where rnum>=? and rnum<=?");
                 
-                pstmt = conn.prepareStatement(sql.toString());
-                pstmt.setString(1, "%"+condition+"%");
-                pstmt.setInt(2, start);
-                pstmt.setInt(3, start+9);
-                
-                sql.delete(0, sql.toString().length());
+				if (orderby == null) {
+            	
+	                sql.append("order BY BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
+	                sql.append("where rnum>=? and rnum<=?");
+	                
+				} else if(orderby.equals("board_max_ref")) {
+					sql.append("order BY BOARD_COUNT desc, BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
+	                sql.append("where rnum>=? and rnum<=?");
+	                
+				} else if(orderby.equals("board_max_seq")) {
+					sql.append("order BY BOARD_DATE desc, BOARD_RE_REF desc, BOARD_RE_SEQ desc)) ");
+	                sql.append("where rnum>=? and rnum<=?");
+	                
+				}
+					                
+	                pstmt = conn.prepareStatement(sql.toString());
+	                pstmt.setString(1, "%"+condition+"%");
+	                pstmt.setInt(2, start);
+	                pstmt.setInt(3, start+9);
+	                
+	                sql.delete(0, sql.toString().length());
             }
-            
             
             rs = pstmt.executeQuery();
             while(rs.next())
