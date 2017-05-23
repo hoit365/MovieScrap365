@@ -54,7 +54,7 @@ public class MovieScrapMyListAction implements MAction {
 		request.setAttribute("movielist", movielist);
 		
 		forward.setRedirect(false);
-		forward.setPath("./main/main.jsp");
+		forward.setPath("./movie/movie_my_list.jsp");
 		return forward;
 	}
 
