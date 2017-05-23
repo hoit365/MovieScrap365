@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.sql.DataSource;
 
 public class AdminDAO {
@@ -29,7 +30,7 @@ public class AdminDAO {
 		}
 	}
 
-	public boolean MemberInfoUpdate(AdminBean member) {
+	public boolean AdminMemberInfoUpdate(AdminBean member) {
 		String sql = "UPDATE MEMBER SET MB_PW = ?, MB_PH = ?, MB_EMAIL = ?  WHERE MB_ID=?";
 		int result = 0;
 		try {
@@ -135,87 +136,109 @@ public class AdminDAO {
 
 	}
 
-	public AdminBean adminMemberSelectView(AdminBean member) {
-		String sql = "select MB_ID, MB_NAME, MB_BIRTH, MB_GENDER, MB_PH, MB_EMAIL, "
-				+ "MB_REGDATE, MB_STAT from member where";
-		System.out.println("DAO 진입");
-		try {
-			if (member.getMB_ID() != null) {
-				sql += "MB_ID = " + member.getMB_ID();
-			} else if (member.getMB_NAME() != null) {
-				sql += "MB_NAME = " + member.getMB_NAME();
-			} else if (member.getMB_PH() != null) {
-				sql += "MB_PH = " + member.getMB_PH();
-			} else if (member.getMB_EMAIL() != null) {
-				sql += "MB_EMAIL = " + member.getMB_EMAIL();
-			} else if (member.getMB_STAT() != null) {
-				sql += "MB_STAT = " + member.getMB_STAT();
-			}
-
-			System.out.println(member.toString());
+	public AdminBean totalSearchList(AdminBean member){
+		String sql = "select count(*) as count FROM MEMBER";
+		if (member.getMB_ID() != null) {
+			sql += " WHERE MB_ID = '" + member.getMB_ID()+"'";
+		} else if (member.getMB_NAME() != null) {
+			sql += " WHERE MB_NAME = '" + member.getMB_NAME()+"'";
+		} else if (member.getMB_PH() != null) {
+			sql += " WHERE MB_PH = '" + member.getMB_PH()+"'";
+		} else if (member.getMB_EMAIL() != null) {
+			sql += " WHERE MB_EMAIL = '" + member.getMB_EMAIL()+"'";
+		} else if (member.getMB_STAT() != null) {
+			sql += " WHERE MB_STAT = '" + member.getMB_STAT()+"'";
+		}
+try {
+	System.out.println("total count DAO 진입");
+	System.out.println("---------------------------------");
+	System.out.println(member.getMB_ID());
+	System.out.println(member.getMB_NAME());
+	System.out.println(member.getMB_PH());
+	System.out.println(member.getMB_EMAIL());
+	System.out.println(member.getMB_STAT());
+	System.out.println(member.toString());
+	System.out.println("---------------------------------");
+			System.out.println(sql.toString());
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-
-				member.setMB_ID(rs.getString("MB_ID"));
-				member.setMB_PW(rs.getString("MB_PW"));
-				member.setMB_NAME(rs.getString("MB_NAME"));
-				member.setMB_BIRTH(rs.getString("MB_BIRTH"));
-				member.setMB_GENDER(rs.getString("MB_GENDER"));
-				member.setMB_PH(rs.getString("MB_PH"));
-				member.setMB_EMAIL(rs.getString("MB_EMAIL"));
-
-				System.out.println("test successful");
-				// 아이디 찾기 완료
-			} else {
-				System.out.println("일치하는 맴버가 없음");
-				System.out.println(member.toString());
-				return null;// 아이디 비밀번호가 일치 하지 않음
+			if(rs.next()){
+				if(member.getPage()==0){
+					int i = 1;
+					member.setPage(i);
+				}
+				member.setTotalCount(Integer.parseInt(rs.getString("count")));
+				System.out.println("count : "+rs.getString("count"));
+				
 			}
-		} catch (Exception e) {
+			
 
-			System.out.println("findMyId Error : " + e);
-		} finally {
-			if (rs != null)
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (con != null)
-				try {
-					con.close();
-				} catch (SQLException ex) {
-				}
-		}
-		return member;
+}catch(
+
+	Exception e)
+	{
+
+		System.out.println("findMyId Error : " + e);
+	}finally
+	{
+		if (rs != null)
+			try {
+				rs.close();
+			} catch (SQLException ex) {
+			}
+		if (pstmt != null)
+			try {
+				pstmt.close();
+			} catch (SQLException ex) {
+			}
+		if (con != null)
+			try {
+				con.close();
+			} catch (SQLException ex) {
+			}
 	}
-	public List adminMemberAllView() {
+return member;
+}
+
+	public List adminMemberView(AdminBean member) {
 		String sql = "select MB_ID, MB_NAME, MB_BIRTH, MB_GENDER, MB_PH, MB_EMAIL, "
-				+ "MB_REGDATE, MB_STAT from member where MB_MANAGER='no'";
-		System.out.println("DAO 진입");
+				+ "MB_REGDATE, MB_STAT from member";
 		List list = new ArrayList();
-		int num=0;
-		int num_ten=0;
+		int num = 0;
 		
+		System.out.println("DAO 진입");
+		System.out.println("---------------------------------");
+		System.out.println(member.getMB_ID());
+		System.out.println(member.getMB_NAME());
+		System.out.println(member.getMB_PH());
+		System.out.println(member.getMB_EMAIL());
+		System.out.println(member.getMB_STAT());
+		System.out.println(member.toString());
+		System.out.println("---------------------------------");
+		if (member.getMB_ID() != null) {
+			sql += " where MB_ID = '" + member.getMB_ID() + "'";
+		} else if (member.getMB_NAME() != null) {
+			sql += " where MB_NAME = '" + member.getMB_NAME() + "'";
+		} else if (member.getMB_PH() != null) {
+			sql += " where MB_PH = '" + member.getMB_PH() + "'";
+		} else if (member.getMB_EMAIL() != null) {
+			sql += " where MB_EMAIL = '" + member.getMB_EMAIL() + "'";
+		} else if (member.getMB_STAT() != null) {
+			sql += " where MB_STAT = '" + member.getMB_STAT() + "'";
+		}
 		try {
 
+			System.out.println(sql.toString());
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-
-				AdminBean adminBean= new AdminBean();
+				
 				num++;
-				adminBean.setNum(Integer.toString(num));
-				System.out.println(Integer.toString(num));
+				AdminBean adminBean = new AdminBean();		
+				adminBean.setNUM(Integer.toString(num));
 				adminBean.setMB_ID(rs.getString("MB_ID"));
 				adminBean.setMB_NAME(rs.getString("MB_NAME"));
 				adminBean.setMB_BIRTH(rs.getString("MB_BIRTH"));
@@ -225,10 +248,10 @@ public class AdminDAO {
 				adminBean.setMB_REGDATE(rs.getString("MB_REGDATE"));
 				adminBean.setMB_STAT(rs.getString("MB_STAT"));
 				list.add(adminBean);
-				
-				System.out.println(num+"Insert successful");
-				// 아이디 찾기 완료
-			} 
+
+				System.out.println(list.size());
+			}
+
 			return list;
 		} catch (Exception e) {
 
@@ -250,7 +273,64 @@ public class AdminDAO {
 				} catch (SQLException ex) {
 				}
 		}
-		return null;
+		return list;
+	}
+
+	public List adminMemberView() {
+		String sql = "select MB_ID, MB_NAME, MB_BIRTH, MB_GENDER, MB_PH, MB_EMAIL, "
+				+ "MB_REGDATE, MB_STAT from member";
+		System.out.println("DAO 진입");
+		List list = new ArrayList();
+		AdminBean bean = new AdminBean();
+		int num = 0;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				num++;
+				AdminBean adminBean = new AdminBean();		
+				adminBean.setNUM(Integer.toString(num));
+				adminBean.setMB_ID(rs.getString("MB_ID"));
+				adminBean.setMB_NAME(rs.getString("MB_NAME"));
+				adminBean.setMB_BIRTH(rs.getString("MB_BIRTH"));
+				adminBean.setMB_GENDER(rs.getString("MB_GENDER"));
+				adminBean.setMB_PH(rs.getString("MB_PH"));
+				adminBean.setMB_EMAIL(rs.getString("MB_EMAIL"));
+				adminBean.setMB_REGDATE(rs.getString("MB_REGDATE"));
+				adminBean.setMB_STAT(rs.getString("MB_STAT"));
+				list.add(adminBean);
+
+				System.out.println("Insert successful : " + num);
+				// 아이디 찾기 완료
+			}
+
+			return list;
+		} catch (Exception e) {
+
+			System.out.println("findMyId Error : " + e);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
+		}
+		return list;
 	}
 
 	public int myPageAuth(AdminBean member) {

@@ -50,12 +50,14 @@ public class AdminController extends javax.servlet.http.HttpServlet implements j
 				}
 		// 유저 정보 조회 액션계열
 				else if (command.equals("/member_list.ad")) {
+					
 					action = new AdminMemberViewAction();
 					forward = new ActionForward();
 
 					try {
 						forward = action.execute(request, response);
 					} catch (Exception e) {
+						System.out.println("test");
 						e.printStackTrace();
 					}
 					
@@ -63,7 +65,22 @@ public class AdminController extends javax.servlet.http.HttpServlet implements j
 						forward.setPath("./admin/page/member_list.jsp");
 					
 				}
-		
+				else if (command.equals("/search_member_list.ad")) {
+					
+					action = new AdminMemberViewAction();
+					forward = new ActionForward();
+
+					try {
+						forward = action.execute(request, response);
+					} catch (Exception e) {
+						System.out.println("test");
+						e.printStackTrace();
+					}
+					
+						forward.setRedirect(false);
+						forward.setPath("./admin/page/member_list.jsp");
+					
+				}
 		// 로그아웃
 		if (command.equals("/logout.me")) {
 			action = new AdminLogoutAction();

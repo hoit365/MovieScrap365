@@ -39,7 +39,7 @@ public class AdminLoginAction implements Action {
 			msg = adminBean.getMB_NAME() + "님! 오늘 일이 많아요!! :)";
 			System.out.println("로그인 성공");
 			session.setAttribute("mb_id", adminBean.getMB_ID());
-			memberlist = adminDao.adminMemberAllView();
+			memberlist = adminDao.adminMemberView();
 		} else if (result == 1){
 			msg ="비밀번호가 틀렸어요 :(";
 		}
@@ -59,7 +59,6 @@ public class AdminLoginAction implements Action {
 		request.setAttribute("result", result);
 		request.setAttribute("memberList", memberlist);
 		request.setAttribute("msg", msg);
-		request.setAttribute("result", result);
 		return forward;
 	}
 

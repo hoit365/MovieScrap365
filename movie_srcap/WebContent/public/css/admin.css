@@ -27,6 +27,18 @@ select {
 	color: #000;
 	background: #efefef
 }
+.btn02, a.btn02 {
+	display: inline-block;
+	width: 40px;
+	vertical-align: middle;
+	line-height: 3em;
+	height: 3em;
+	border: 1px solid #9c918a;
+	border-radius: 3px;
+	text-align: center;
+	color: #000;
+	background: #efefef
+}
 
 input[type="submit"].btn01 {
 	height: 3.2em;
@@ -70,9 +82,17 @@ input[type='text'].memTable, input.memTable[type='password'] {
 	color: #000000;
 }
 
-
-input[type='text'].updateTable, input[type='password'].updateTable {
+input[type='text'].serach, input[type='password'].search {
 	width: 160px;
+	line-height: 3em;
+	height: 3em;
+	text-indent: 20px;
+	border: 1px solid #9c918a;
+	border-radius: 3px;
+	color: #000000;
+}
+input[type='text'].updateTable, input[type='password'].updateTable {
+	width: 280px;
 	line-height: 3em;
 	height: 3em;
 	text-indent: 20px;
