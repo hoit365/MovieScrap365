@@ -24,12 +24,8 @@ public class MovieScrapReviewAction implements MAction{
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 		int rating = request.getParameter("ms_myRating") == null ? 0 : Integer.parseInt(request.getParameter("ms_myRating"));
 		String review = request.getParameter("ms_review") == null ? "" : request.getParameter("ms_review");
-		
 		String title = request.getParameter("ms_title") == null? "" : request.getParameter("ms_title");
-		
-		System.out.println("MovieScrapReviewAction - ms_title : "+title);
-		
-		
+
 		MovieDAO moviedao = MovieDAO.getInstance();
 		MovieBean moviedata = new MovieBean();
 		

@@ -41,10 +41,8 @@ public class MovieScrapViewAction implements MAction {
 		boolean isWriter = request.getParameter("isWriter") == null ? true : Boolean.parseBoolean(request.getParameter("isWriter"));
 		boolean click = request.getParameter("click") == null ? false : Boolean.parseBoolean(request.getParameter("click"));
 		
-		System.out.println("moviescrapview isWriter : "+isWriter);
-		
+	
 		List reviewlist = new ArrayList();
-		
 		int spage = 1;
 		int limit = 5;
 		
@@ -56,10 +54,21 @@ public class MovieScrapViewAction implements MAction {
 		
 		int listcount = mDao.getListcount(seq, id);
 		System.out.println("moviescrapviewaction의 listcount : "+listcount);
+		
 		reviewlist = mDao.getReviewList(spage, limit);
 		
-		int maxPage = ((listcount-1)/limit) + 1;		
+		boolean is_review = mDao.isReviewWriter(mb_id, seq, id);
+		if( is_review ){
+			request.setAttribute("is_review", true);
+			System.out.println("있음");
+		}else{
+			request.setAttribute("is_review", false);
+			System.out.println("없음");
+		}
+		//리뷰 카운트
+		request.setAttribute("listcount", listcount);
 		
+		int maxPage = ((listcount-1)/limit) + 1;		
 		int startPage = spage <= 2 ? 1 : (spage > maxPage-2? maxPage-4 : spage-2);
 		int endPage = spage > maxPage-2? maxPage: startPage+4;
 		
@@ -77,6 +86,7 @@ public class MovieScrapViewAction implements MAction {
 		request.setAttribute("listcount", listcount);
 		request.setAttribute("reviewlist", reviewlist);
 		System.out.println(mApi.getResult());
+		
 		//view 설정
 		mforward.setRedirect(false);
 		mforward.setPath("movie/movie_view.jsp");
