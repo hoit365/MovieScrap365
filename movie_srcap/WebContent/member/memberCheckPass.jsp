@@ -23,7 +23,7 @@
 								</li>
 							</ul>
 							
-							<input type="submit" value="LOGIN" class="btn_login">
+							<input type="submit" value="LOGIN" class="btn_login" style="width:105px">
 						</div>
 					</fieldset>
 				</form>

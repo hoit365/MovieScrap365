@@ -19,8 +19,8 @@ public class MainIndexAction implements MainAction {
 		MainActionForward forward = new MainActionForward();
 		
 		MovieDAO moviedao = MovieDAO.getInstance();
-		//ArrayList<MovieBean> movieLankList = moviedao.getRankList();
-		//request.setAttribute("movieLankList", movieLankList);
+		ArrayList<MovieBean> movieLankList = moviedao.getRankList();
+		request.setAttribute("movieLankList", movieLankList);
 
 		MovieAPI mApi = new MovieAPI();
 		mApi.setSort("prodYear");
