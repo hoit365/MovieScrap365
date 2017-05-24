@@ -29,24 +29,54 @@ public class AdminController extends javax.servlet.http.HttpServlet implements j
 
 		}
 
-		// 단순 로그인
-		else if (command.equals("/adminLogin.ad")) {
-			action = new AdminLoginAction();
+		// 유저 정보 수정
+		else if (command.equals("/admin_member_update.ad")) {
+			
+			action = new AdminMemberUpdateAction();
 			forward = new ActionForward();
 
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
+				System.out.println("test");
 				e.printStackTrace();
 			}
-			if ((Integer) request.getAttribute("result") == 0) {
+			
+		}
+		else if (command.equals("/search_member_list.ad")) {
+			
+			action = new AdminMemberViewAction();
+			forward = new ActionForward();
+
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("test");
+				e.printStackTrace();
+			}
+			
 				forward.setRedirect(false);
 				forward.setPath("./admin/page/member_list.jsp");
-			} else {
-				forward.setRedirect(false);
-				forward.setPath("./admin/page/adminLogin.jsp");
-			}
+			
 		}
+		// 단순 로그인
+				else if (command.equals("/adminLogin.ad")) {
+					action = new AdminLoginAction();
+					forward = new ActionForward();
+
+					try {
+						forward = action.execute(request, response);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if ((Integer)request.getAttribute("result") == 0) {
+						forward.setRedirect(false);
+						forward.setPath("/member_list.ad");
+					} else {
+						forward.setRedirect(false);
+						forward.setPath("./admin/page/adminLogin.jsp");
+					}
+				}
 		// 유저 정보 조회 액션계열
 		else if (command.equals("/member_list.ad")) {
 

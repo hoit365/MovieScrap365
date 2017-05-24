@@ -16,7 +16,12 @@
 	</div>
 	<div class="content_inner">
 		<div class="section">
-			<form action="${PATH}/member_list.ad" method="post" name="memberControl" id="frm">
+			<form action="${PATH}/admin_member_update.ad" method="post" name="memberControl" id="frm">
+				<input type="hidden" name="search" value="${param.search }" />
+				<input type="hidden" name="searchKeyword" value="${param.searchKeyword }" />
+				<input type="hidden" name="mb_id" value="${param.mb_id }" />
+				<input type="hidden" name="page" value="${param.page }" />
+				
 				<table border="1">
 					<colgroup>
 						<col width="120" />
@@ -26,8 +31,8 @@
 					</colgroup>
 					<tr>
 						<th>아이디</th>
-						<td><input type="text" name="mb_id" width="400" size="80"
-							value="${viewBean.MB_ID }" class="updateTable" id="mb_id" /></td>
+						<td> &nbsp;${viewBean.MB_ID } <input type="hidden" name="mb_id" width="400" size="80"
+							value="${viewBean.MB_ID }" readonly class="updateTable" id="mb_id" /></td>
 						<th>이름</th>
 						<td><input type="text" name="mb_name" value="${viewBean.MB_NAME }"
 							class="updateTable" id="mb_name" /></td>
@@ -37,10 +42,10 @@
 						<th>이메일</th>
 						<td><input type="text" class="updateTable" name="mb_email"
 							width="280" value="${viewBean.MB_EMAIL }" size="100" placeholder="이메일을 정확하게 입력해주세요."
-							id="mb_email" />&nbsp;</td>
+							id="mb_email" class="datepicker" />&nbsp;</td>
 						<th>생년월일</th>
-						<td><input type="text" class="updateTable" name="mb_birth"
-							width="280" size="80" placeholder="생년월일" id="mb_birth" value="${viewBean.MB_BIRTH }" /></td>
+						<td><input type="text" name="mb_birth" class="updateTable datepicker"
+							width="280" size="80" placeholder="생년월일" id="mb_birth" value="${viewBean.MB_BIRTH.substring(0, 10) }" /></td>
 					</tr>
 					<tr>
 						<th>성별</th>
@@ -81,9 +86,8 @@
 				</select> 
 				<input type="text" name="searchKeyword" id="stx"
 					placeholder="검색어를 입력하세요" class="serach" value="${param.searchKeyword }"/> 
-				<input type="submit"
-					value="검색" class="btn01" /> <a href="${PATH}/member_list.ad"
-					class="btn01">초기화</a>
+				<input type="submit"value="검색" class="btn01" /> 
+				<a href="${PATH}/member_list.ad" class="btn01">초기화</a>
 			</form>
 		</div>
 		<div class="board_list">

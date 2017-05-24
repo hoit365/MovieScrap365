@@ -24,7 +24,7 @@ public class AdminMemberViewAction implements Action{
 		int endRow = 0; //마지막행
 		
 		ActionForward forward = new ActionForward();
-		AdminDAO2 adminDAO = AdminDAO2.getInstance();
+		AdminDAO adminDAO = new AdminDAO();
 		
 		int totalCount = adminDAO.getBoardTotalCount(search, searchKeyword);
 		if( totalCount > 0){
