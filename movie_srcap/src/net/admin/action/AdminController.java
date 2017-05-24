@@ -41,15 +41,6 @@ public class AdminController extends javax.servlet.http.HttpServlet implements j
 				System.out.println("test");
 				e.printStackTrace();
 			}
-			if ((boolean)request.getAttribute("result") == false) {
-				forward.setRedirect(false);
-				forward.setPath("./admin/page/member_list.jsp");
-			} else {
-				forward.setRedirect(false);
-				forward.setPath("./admin/page/adminLogin.jsp");
-			}
-				forward.setRedirect(false);
-				forward.setPath("./admin/page/member_list.jsp");
 			
 		}
 		else if (command.equals("/search_member_list.ad")) {
@@ -80,45 +71,44 @@ public class AdminController extends javax.servlet.http.HttpServlet implements j
 					}
 					if ((Integer)request.getAttribute("result") == 0) {
 						forward.setRedirect(false);
-						forward.setPath("./admin/page/member_list.jsp");
+						forward.setPath("/member_list.ad");
 					} else {
 						forward.setRedirect(false);
 						forward.setPath("./admin/page/adminLogin.jsp");
 					}
 				}
 		// 유저 정보 조회 액션계열
-				else if (command.equals("/member_list.ad")) {
-					
-					action = new AdminMemberViewAction();
-					forward = new ActionForward();
+		else if (command.equals("/member_list.ad")) {
 
-					try {
-						forward = action.execute(request, response);
-					} catch (Exception e) {
-						System.out.println("test");
-						e.printStackTrace();
-					}
-					
-						forward.setRedirect(false);
-						forward.setPath("./admin/page/member_list.jsp");
-					
-				}
-				else if (command.equals("/search_member_list.ad")) {
-					
-					action = new AdminMemberViewAction();
-					forward = new ActionForward();
+			action = new AdminMemberViewAction();
+			forward = new ActionForward();
 
-					try {
-						forward = action.execute(request, response);
-					} catch (Exception e) {
-						System.out.println("test");
-						e.printStackTrace();
-					}
-					
-						forward.setRedirect(false);
-						forward.setPath("./admin/page/member_list.jsp");
-					
-				}
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("test");
+				e.printStackTrace();
+			}
+
+			forward.setRedirect(false);
+			forward.setPath("./admin/page/member_list.jsp");
+
+		} else if (command.equals("/search_member_list.ad")) {
+
+			action = new AdminMemberViewAction();
+			forward = new ActionForward();
+
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("test");
+				e.printStackTrace();
+			}
+
+			forward.setRedirect(false);
+			forward.setPath("./admin/page/member_list.jsp");
+
+		}
 		// 로그아웃
 		if (command.equals("/logout.me")) {
 			action = new AdminLogoutAction();
@@ -136,7 +126,7 @@ public class AdminController extends javax.servlet.http.HttpServlet implements j
 			System.out.println(forward);
 
 		}
-		
+
 		if (forward != null) {
 			if (forward.isRedirect()) {
 				response.sendRedirect(forward.getPath());

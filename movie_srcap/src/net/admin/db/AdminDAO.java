@@ -31,28 +31,43 @@ public class AdminDAO {
 	}
 
 	public boolean AdminMemberInfoUpdate(AdminBean member) {
-		String sql = "UPDATE MEMBER SET MB_ID = ?, MB_NAME = ?, MB_BIRTH = ?, MB_GENDER = ?, MB_PH = ?, "
-				+ "MB_EMAIL = ?, MB_STAT = ?  WHERE MB_ID=?";
+		String sql = "UPDATE MEMBER SET MB_NAME = ? "
+				+ " , MB_GENDER = ? "
+				+ " , MB_PH = ? "
+				+ " , MB_EMAIL = ? "
+				+ " , MB_BIRTH = ? "
+				+ " , MB_STAT = ? "
+				+ " WHERE MB_ID = ?";
 		System.out.println(member.toString());
 		int result = 0;
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member.getMB_ID());
-			pstmt.setString(2, member.getMB_NAME());
-			pstmt.setString(3, member.getMB_BIRTH());
-			pstmt.setString(4, member.getMB_GENDER());
-			pstmt.setString(5, member.getMB_PH());
-			pstmt.setString(6, member.getMB_EMAIL());
-			pstmt.setString(7, member.getMB_STAT());
-			pstmt.setString(8, member.getMB_ID());
+			pstmt.setString(1, member.getMB_NAME());
+			pstmt.setString(2, member.getMB_GENDER());
+			pstmt.setString(3, member.getMB_PH());
+			pstmt.setString(4, member.getMB_EMAIL());
+			pstmt.setString(5, member.getMB_BIRTH());
+			pstmt.setString(6, member.getMB_STAT());
+			pstmt.setString(7, member.getMB_ID());
+			
+//			pstmt.setString(1, member.getMB_ID());
+//			pstmt.setString(2, member.getMB_NAME());
+//			pstmt.setString(3, member.getMB_BIRTH());
+//			pstmt.setString(4, member.getMB_GENDER());
+//			pstmt.setString(5, member.getMB_PH());
+//			pstmt.setString(6, member.getMB_EMAIL());
+//			pstmt.setString(7, member.getMB_STAT());
+//			pstmt.setString(8, member.getMB_ID());
 			result = pstmt.executeUpdate();
 
 			if (result != 0) {
 				return true;
 			}
 		} catch (Exception e) {
-			System.out.println("joinMember Error : " + e);
+			System.out.println("AdminMemberInfoUpdate Error : " + e);
+			e.printStackTrace();
+			
 		} finally {
 			if (rs != null)
 				try {
@@ -311,7 +326,7 @@ return member;
 				adminBean.setMB_STAT(rs.getString("MB_STAT"));
 				list.add(adminBean);
 
-				System.out.println("Insert successful : " + num);
+				//System.out.println("Insert successful : " + num);
 				// 아이디 찾기 완료
 			}
 
@@ -427,4 +442,155 @@ return member;
 		}
 		return false;
 	}
+	
+	
+	public ArrayList<AdminBean> getAdminList(String sfl, String stx, int firstRow, int endRow) {
+		ArrayList<AdminBean> list = new ArrayList<>();
+		
+		//페이징 처리
+		String sql = " SELECT * FROM ";
+			   sql += "    ( SELECT A.* , ROWNUM AS RNUM FROM ";
+			   sql += "         ( SELECT * FROM MEMBER ";
+			   //검색이 있을 경우 
+			   if( sfl != null && !sfl.equals("") ){
+			   sql += "            WHERE "+ sfl + " like ? ";
+			   }
+			   sql += "   ) A WHERE ROWNUM < ? ) ";
+			   sql += " WHERE RNUM >= ? ";
+
+		try {
+			int k = 1;
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			if( sfl != null && !sfl.equals("") ){
+			pstmt.setString(k++, "%"+stx+"%");
+			}
+			pstmt.setInt(k++, endRow);
+			pstmt.setInt(k++, firstRow);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()){
+				AdminBean adminBean = new AdminBean();
+				
+				adminBean.setMB_ID(rs.getString("MB_ID"));
+				adminBean.setMB_NAME(rs.getString("MB_NAME"));
+				adminBean.setMB_BIRTH(rs.getString("MB_BIRTH"));
+				adminBean.setMB_GENDER(rs.getString("MB_GENDER"));
+				adminBean.setMB_PH(rs.getString("MB_PH"));
+				adminBean.setMB_EMAIL(rs.getString("MB_EMAIL"));
+				adminBean.setMB_REGDATE(rs.getString("MB_REGDATE"));
+				adminBean.setMB_STAT(rs.getString("MB_STAT"));
+				
+				list.add(adminBean);
+		
+			}
+		} catch ( Exception e) {
+			System.out.println("getAdminList Error : " + e);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
+		}
+		return list;
+	}
+	
+	//getBoardTotalCount
+	public int getBoardTotalCount(String sfl, String stx) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		String sql = "select count(*) as cnt from member ";
+		if( sfl != null && !sfl.equals("")){
+			   sql += " where "+sfl+" like ? ";
+		}
+		System.out.println("sfl"+sfl+"sql:"+sql);
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			if( sfl != null && !sfl.equals("")){
+				pstmt.setString(1, "%"+stx+"%");
+			}
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result = rs.getInt("cnt");
+			}
+	
+		}catch(Exception e){
+			System.out.println("getBoardTotalCount 에러 : "+e.getMessage());
+			
+		}finally{
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+			}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+			}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+			}
+		}
+		return result;
+	}
+	
+
+	public AdminBean adminMemberView(String mb_id) {
+		String sql = "select * from member where mb_id = ?";
+		AdminBean bean = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, mb_id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				bean = new AdminBean();
+	
+				bean.setMB_ID(rs.getString("MB_ID"));
+				bean.setMB_NAME(rs.getString("MB_NAME"));
+				bean.setMB_BIRTH(rs.getString("MB_BIRTH"));
+				bean.setMB_GENDER(rs.getString("MB_GENDER"));
+				bean.setMB_PH(rs.getString("MB_PH"));
+				bean.setMB_EMAIL(rs.getString("MB_EMAIL"));
+				bean.setMB_REGDATE(rs.getString("MB_REGDATE"));
+				bean.setMB_STAT(rs.getString("MB_STAT"));
+			}
+			return bean;
+		} catch (Exception e) {
+			System.out.println("adminMemberView Error : " + e);
+		} finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+				}
+			if (pstmt != null)
+				try {
+					pstmt.close();
+				} catch (SQLException ex) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (SQLException ex) {
+				}
+		}
+		return bean;
+	}	
 }
