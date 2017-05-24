@@ -21,10 +21,14 @@
 		
 		function doAction(value)
 		{
-			if(value == 0) // 수정
+			if(value == 0) { // 수정
 				location.href="BoardUpdateFormAction.bo?num=${board.board_num}&page=${pageNum}";
-			else if(value == 1) // 삭제
+			} else if(value == 1) {// 삭제
+				if(confirm("정말로 삭제 하시겠습니까?")) {
 				location.href="BoardDeleteAction.bo?num=${board.board_num}";
+
+				}
+			} else return false;
 		}
 		
 

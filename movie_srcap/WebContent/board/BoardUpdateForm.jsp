@@ -11,7 +11,12 @@
 
 <script type="text/javascript">
 	function changeView() {
+		/* alert("글이 수정되었습니다.") */
+		if(confirm("정말 수정 하시겠습니까?")) {
 		location.href = 'BoardListAction.bo?page=${pageNum}';
+		} else {
+			return false;
+		}
 	}
 </script>
 
@@ -34,7 +39,6 @@
 						<ul class="clear list01">
 							<li><span class="tit">작성자</span> <span class="con">${board.board_id}</span>
 							</li>
-							<li><span class="tit">비밀번호</span>
 								<span class="con">
 									<input type="password" name="bo_pass" placeholder="비밀번호" size="500" />
 								</span>
@@ -74,7 +78,7 @@
 						<%-- <a href="${PATH }/BoardListAction.bo" class="btn02">작성취소</a> --%>
 					</div>
 					<div class="button_area_right">
-						<input type="submit" class="btn01" value="수정" />
+						<input type="button" class="btn01" value="수정" onclick="changeView()"/>
 					</div>
 				</div>
 			</form>
