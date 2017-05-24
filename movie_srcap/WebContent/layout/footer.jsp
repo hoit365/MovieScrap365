@@ -20,11 +20,11 @@
 		<div class="bottom_global_menu">
 			<h3 class="skip">글로벌 하단메뉴</h3>
 			<ul class="clear clearfix">
-				<li><a href="/bbs/content.php?co_id=provision">서비스이용약관</a></li>
-				<li class="on"><a href="/bbs/content.php?co_id=privacy">개인정보취급방침</a></li>
+				<li><a href="">서비스이용약관</a></li>
+				<li class="on"><a href="">개인정보취급방침</a></li>
 				<?php if (!$is_member) {  ?>
-				<li><a href="<?php echo G5_BBS_URL ?>/register.php">회원가입</a></li>
-				<li><a href="<?php echo G5_BBS_URL ?>/login.php">로그인</a></li>
+				<li><a href="${PATH }/member/joinIntro.jsp">회원가입</a></li>
+				<li><a href="${PATH }/member/loginForm.jsp">로그인</a></li>
 				<?php } ?>
 			</ul>
 		</div>

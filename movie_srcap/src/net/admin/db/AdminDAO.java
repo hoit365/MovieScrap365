@@ -305,7 +305,7 @@ return member;
 				adminBean.setMB_STAT(rs.getString("MB_STAT"));
 				list.add(adminBean);
 
-				System.out.println("Insert successful : " + num);
+				//System.out.println("Insert successful : " + num);
 				// 아이디 찾기 완료
 			}
 

@@ -25,7 +25,7 @@
 	<script type="text/javascript" src="${JS_PATH }/ux.js?v=<%=System.currentTimeMillis() %>"></script>
 	<% session.getAttribute("mb_id"); %>
 <script type="text/javascript">
-<%
+<%-- <%
 if(request.getAttribute("msg")!=null){
 	String msg = "";
 	msg = (String)request.getAttribute("msg");
@@ -36,7 +36,7 @@ if(request.getAttribute("msg")!=null){
 	request.setAttribute("msg", null);
 	System.out.println((String)request.getAttribute("msg"));
 }
-%>
+%> --%>
 </script>
 </head>
 <body>

@@ -21,10 +21,14 @@
 		
 		function doAction(value)
 		{
-			if(value == 0) // 수정
+			if(value == 0) { // 수정
 				location.href="BoardUpdateFormAction.bo?num=${board.board_num}&page=${pageNum}";
-			else if(value == 1) // 삭제
+			} else if(value == 1) {// 삭제
+				if(confirm("정말로 삭제 하시겠습니까?")) {
 				location.href="BoardDeleteAction.bo?num=${board.board_num}";
+
+				}
+			} else return false;
 		}
 		
 
@@ -150,13 +154,14 @@
 					</div>
 
 					<!-- 첨부파일 -->
+					<c:if test="${!empty board.board_file}">
 					<div class="board_view_file">
 						<h3 class="tit">첨부파일</h3>
 						<ul class="clear">
 							<li><a href='FileDownloadAction.bo?file_name=${board.board_file}'>${board.board_file}</a></li>
 						</ul>
 					</div>
-
+					</c:if>
 					<!-- board_write -->
 					<div class="board_view">
 						<div class="view_content">${fn:replace(board.board_content, cn, br)}</div>
@@ -184,37 +189,37 @@
 	</div>
 	<br> <br>
 	<!-- 댓글 부분 -->
-		<div id="comment">
+		<div id="comment" class="comment_area">
 			<table border="1" bordercolor="lightgray">
 				<!-- 댓글 목록 -->
 				<c:if test="${requestScope.commentList != null}">
 					<c:forEach var="comment" items="${requestScope.commentList}">
 						<tr>
 							<!-- 아이디, 작성날짜 -->
-							<td width="150">
-								<div>
-									<c:if test="${comment.comment_level > 1}">
-							&nbsp;&nbsp;&nbsp;&nbsp; <!-- 답변글일경우 아이디 앞에 공백을 준다. -->
-										<img src="img/reply_icon.gif">
-									</c:if>
-
-									${comment.comment_id}<br> <font size="2" color="lightgray">${comment.comment_date}</font>
-								</div>
+							<td width="170" style="padding:10px">
+							<c:if test="${comment.comment_level > 1}"> 
+							<c:forEach begin="1" end="${comment.comment_level-1 }"><img src="${IMG_PATH }/reply_icon.png" style="width:15px" /></c:forEach>
+							</c:if>
+							<strong class="id" >${comment.comment_id}</strong><br />
+							<c:if test="${comment.comment_level > 1}"> 
+							<c:forEach begin="0" end="${comment.comment_level }">&nbsp;&nbsp;</c:forEach>
+							</c:if>			
+							<span class="date" style="color:gray;font-size:12px;line-height:20px;text-align:center">${comment.comment_date}</span>
+							
 							</td>
 							<!-- 본문내용 -->
-							<td width="550">
+							<td width="550"  style="padding:10px;">
 								<div class="text_wrapper">
 									${fn:replace(comment.comment_content, cn, br)}</div>
 							</td>
 							<!-- 버튼 -->
-							<td width="100">
-								<div id="btn">
-									<a href="#" onclick="cmReplyOpen(${comment.comment_num})">[답변]</a><br>
+							<td width="200" style="padding:10px;">
+								<div id="btn" style="text-align:center">
+									<a href="#" onclick="cmReplyOpen(${comment.comment_num})" class="btn02">답변</a>
 									<!-- 댓글 작성자만 수정, 삭제 가능하도록 -->
 									<c:if test="${comment.comment_id == sessionScope.mb_id}">
-										<a href="#" onclick="cmUpdateOpen(${comment.comment_num})">[수정]</a>
-										<br>
-										<a href="#" onclick="cmDeleteOpen(${comment.comment_num})">[삭제]</a>
+									<a href="#" onclick="cmUpdateOpen(${comment.comment_num})"  class="btn02">수정</a>
+									<a href="#" onclick="cmDeleteOpen(${comment.comment_num})"  class="btn02">삭제</a>
 									</c:if>
 								</div>
 							</td>
@@ -232,22 +237,16 @@
 								value="${board.board_num}"> <input type="hidden"
 								name="comment_id" value="${sessionScope.mb_id}">
 							<!-- 아이디-->
-							<td width="150">
-								<div>${sessionScope.mb_id}</div>
+							<td width="170" style="text-align:center;padding:10px">
+								${sessionScope.mb_id}
 							</td>
 							<!-- 본문 작성-->
-							<td width="550">
-								<div>
-									<textarea name="comment_content" rows="4" cols="70"></textarea>
-								</div>
+							<td width="550" style="padding:10px;">
+								<textarea name="comment_content" rows="4" style="height:100px;background:#fff" cols="70"></textarea>
 							</td>
 							<!-- 댓글 등록 버튼 -->
-							<td width="100">
-								<div id="btn">
-									<p>
-										<a href="#" onclick="writeCmt()">[댓글등록]</a>
-									</p>
-								</div>
+							<td width="150" style="text-align:center;">
+								<a href="#" onclick="writeCmt()" class="btn01">댓글등록</a>
 							</td>
 						</form>
 					</tr>

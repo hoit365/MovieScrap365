@@ -58,7 +58,7 @@ if(request.getAttribute("msg")!=null){
 					<li><a href="${PATH }/SearchMap.so">영화관정보</a></li>
 				</ul>
 				<a href="javascript:;" class="btn_all_menu">전체메뉴보기</a>
-				<a href="${PATH }/member/join.do" class="btn_join_go">회원가입</a>
+				<a href="${PATH }/member/joinIntro.jsp" class="btn_join_go">회원가입</a>
 			</div>
 			<!-- //main_menu -->
 		</div>

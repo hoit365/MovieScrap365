@@ -17,8 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="${CSS_PATH }/style.css?v=<%=System.currentTimeMillis() %>" />
 	<script type="text/javascript" src="${JS_PATH }/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="${JS_PATH }/jquery-ui.js"></script>
-	<script type="text/javascript" src="${JS_PATH }/TweenMax.min.js"></script>
-	<script type="text/javascript" src="${JS_PATH }/jquery.bxslider.js"></script>
+
 	<!--[if lte IE 8]>
 	<script type="text/javascript" src="${JS_PATH }/respond.js"></script>
 	<script type="text/javascript" src="${JS_PATH }/html5.js"></script>
