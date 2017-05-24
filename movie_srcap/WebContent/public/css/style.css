@@ -209,12 +209,13 @@ html, body{width:100%;position:relative;z-index:1;}
 		/* tab_area_wrap */
 		.tab_area_wrap{padding:2% 5%}
 		.tab_area_wrap .tab_title{border-bottom:1px solid #fff}
-		.tab_area_wrap .tab_title li{float:left;width:50%;line-height:50px;text-align:center}
+		.tab_area_wrap .tab_title li{float:left;width:33.3%;line-height:50px;text-align:center}
 		.tab_area_wrap .tab_title li a{display:block;text-align:center;font-weight:bold;font-size:16px;border-bottom:3px solid #eee}
 		.tab_area_wrap .tab_title li a.on{border-color:#ff0000}
 		.tab_area_wrap{border:1px solid #575757;border-radius:5px}
 		.tab_content{height:342px;position:relative;}
 		.movie_area .tab_content{height:430px}
+		.main_area2 .tab_area_wrap .tab_title li{width:50%}
 		
 		/* movie_lank_area */
 		.movie_lank_area{}
