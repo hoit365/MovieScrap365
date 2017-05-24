@@ -36,7 +36,6 @@
 					<div class="board_write_chk">
 						<ul class="clear list01">
 							<li><span class="tit">작성자</span><span class="con"><input type="text" name="board_id" id="board_id" value="${sessionScope.mb_id }" /></span></li>
-							<li><span class="tit">비밀번호</span>
 								<span class="con">
 								<input type="password" name="bo_pass" placeholder="비밀번호" size="500" />
 								</span>
