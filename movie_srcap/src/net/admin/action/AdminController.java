@@ -29,7 +29,45 @@ public class AdminController extends javax.servlet.http.HttpServlet implements j
 
 		}
 
-		
+		// 유저 정보 수정
+		else if (command.equals("/admin_member_update.ad")) {
+			
+			action = new AdminMemberUpdateAction();
+			forward = new ActionForward();
+
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("test");
+				e.printStackTrace();
+			}
+			if ((boolean)request.getAttribute("result") == false) {
+				forward.setRedirect(false);
+				forward.setPath("./admin/page/member_list.jsp");
+			} else {
+				forward.setRedirect(false);
+				forward.setPath("./admin/page/adminLogin.jsp");
+			}
+				forward.setRedirect(false);
+				forward.setPath("./admin/page/member_list.jsp");
+			
+		}
+		else if (command.equals("/search_member_list.ad")) {
+			
+			action = new AdminMemberViewAction();
+			forward = new ActionForward();
+
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("test");
+				e.printStackTrace();
+			}
+			
+				forward.setRedirect(false);
+				forward.setPath("./admin/page/member_list.jsp");
+			
+		}
 		// 단순 로그인
 				else if (command.equals("/adminLogin.ad")) {
 					action = new AdminLoginAction();

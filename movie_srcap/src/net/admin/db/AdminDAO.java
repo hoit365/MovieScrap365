@@ -31,15 +31,21 @@ public class AdminDAO {
 	}
 
 	public boolean AdminMemberInfoUpdate(AdminBean member) {
-		String sql = "UPDATE MEMBER SET MB_PW = ?, MB_PH = ?, MB_EMAIL = ?  WHERE MB_ID=?";
+		String sql = "UPDATE MEMBER SET MB_ID = ?, MB_NAME = ?, MB_BIRTH = ?, MB_GENDER = ?, MB_PH = ?, "
+				+ "MB_EMAIL = ?, MB_STAT = ?  WHERE MB_ID=?";
+		System.out.println(member.toString());
 		int result = 0;
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, member.getMB_PW());
-			pstmt.setString(2, member.getMB_PH());
-			pstmt.setString(3, member.getMB_EMAIL());
-			pstmt.setString(4, member.getMB_ID());
+			pstmt.setString(1, member.getMB_ID());
+			pstmt.setString(2, member.getMB_NAME());
+			pstmt.setString(3, member.getMB_BIRTH());
+			pstmt.setString(4, member.getMB_GENDER());
+			pstmt.setString(5, member.getMB_PH());
+			pstmt.setString(6, member.getMB_EMAIL());
+			pstmt.setString(7, member.getMB_STAT());
+			pstmt.setString(8, member.getMB_ID());
 			result = pstmt.executeUpdate();
 
 			if (result != 0) {
