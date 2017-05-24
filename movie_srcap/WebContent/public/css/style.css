@@ -155,15 +155,16 @@ html, body{width:100%;position:relative;z-index:1;}
 	.top_global_menu ul li.welcome_text{line-height:40px;font-size:11px;color:#717171}
 	
 	/* header */
-	.header h1{position:absolute;left:0;top:15px;width:100px;z-index:100}
+	.header h1{position:absolute;left:0;top:-35px;width:100px;z-index:100}
 	.header h1 a{display:block}
 	.header h1 img{max-width:100%}
 	
 		/* gnb_area */
 		.main_menu{position:relative;z-index:30;margin-top:70px;text-align:center}
-		.main_menu ul{display:inline-block;*display:inline;zoom:1;text-align:center;border-bottom:1px solid #f1f1f1}
+		.main_menu ul{display:inline-block;*display:inline;zoom:1;text-align:center;}
 		.main_menu ul li{display:inline-block;}
 		.main_menu ul li.on a{color:#b96240}
+		.main_menu ul li a:hover{color:#ff9800}
 		.ie7 .main_menu ul li{display:inline;}
 		.main_menu ul li a{display:block;padding:0 30px;line-height:55px;color:#333333;font-size:24px}
 		a.btn_all_menu{position:absolute;z-index:50;right:0;top:0;bottom:0;width:55px;background:url(../images/common/btn_menu.png) 50% 50% no-repeat;text-indent:-9999px}
@@ -193,11 +194,11 @@ html, body{width:100%;position:relative;z-index:1;}
 		.movie_list_area ul li{overflow:hidden;float:left;width:300px;height:420px}
 		.movie_list_area ul li a{display:block;text-align:center;background:#efefef;opacity:0.8;background:#000}
 		.movie_list_area ul li a:hover{opacity:1}
-		.movie_list_area ul li a img{max-width:100%}
+		.movie_list_area ul li a img{width:100%}
 		
 		.mv_top_area{}
 		
-		/* movie_detail_area */
+
 
 		/* movie_detail_top */
 		.movie_detail_top{margin-top:20px;overflow:hidden;position:relative;}
@@ -241,6 +242,10 @@ html, body{width:100%;position:relative;z-index:1;}
 		.slider_list.movie_img_list .viewer ul li a img{width:100%;}
 		.slider_list.movie_img_list .viewer ul li a:hover img{margin-left:0;}
 		.movie_img_list .title02{line-height:3.3em;}
+		.movie_list01.slider_list .viewer{height:320px;background:#000}
+		.movie_list01.slider_list .viewer ul li{height:320px}
+		.movie_list01.slider_list .viewer ul li a img{width:100%;}
+		.movie_list01.slider_list .viewer ul li a:hover img{width:120%}
 		
 		/* youtube_list */
 		.youtube_list_area{padding:10px 0}

@@ -4,21 +4,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="../layout/header.jsp"></c:import>
-<script type="text/javascript">
-	
-<%List member = (List) request.getAttribute("memberList");
-			AdminBean ml = new AdminBean();
-			System.out.println((int)request.getAttribute("page"));
-			System.out.println((int)request.getAttribute("countList"));
-			System.out.println((int)request.getAttribute("countPage"));
-			System.out.println((int)request.getAttribute("totalCount"));
-			System.out.println((int)request.getAttribute("totalPage"));
-			System.out.println((int)request.getAttribute("startPage"));
-			System.out.println((int)request.getAttribute("endPage"));
-			
-%>                          
-	
-</script>
+<%
+	List member = (List) request.getAttribute("memberList");
+	AdminBean ml = new AdminBean();
+%>
 
 <div class="content" id="content">
 	<div class="content_top">
@@ -129,38 +118,45 @@
 					</tr>
 				</thead>
 				<tbody id="memberTable">
-					<c:forEach var="i" items="${memberList }">
+					<c:forEach var="i" items="${resultList }">
 						<tr>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="num" value="${i.NUM }" id="MT_${i.NUM }_1"></td>
+								disabled="disabled" name="num" value="${i.NUM }"
+								id="MT_${i.NUM }_1"></td>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="mb_id" value="${i.MB_ID }" id="MT_${i.NUM }_2"></td>
+								disabled="disabled" name="mb_id" value="${i.MB_ID }"
+								id="MT_${i.NUM }_2"></td>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="mb_name" value="${i.MB_NAME }" id="MT_${i.NUM }_3"></td>
+								disabled="disabled" name="mb_name" value="${i.MB_NAME }"
+								id="MT_${i.NUM }_3"></td>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="mb_birth" value="${i.MB_BIRTH.substring(0, 10) }" id="MT_${i.NUM }_4"></td>
+								disabled="disabled" name="mb_birth"
+								value="${i.MB_BIRTH.substring(0, 10) }" id="MT_${i.NUM }_4"></td>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="mb_gender" value="${i.MB_GENDER }" id="MT_${i.NUM }_5"></td>
+								disabled="disabled" name="mb_gender" value="${i.MB_GENDER }"
+								id="MT_${i.NUM }_5"></td>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="mb_ph" value="${i.MB_PH }" id="MT_${i.NUM }_6"></td>
+								disabled="disabled" name="mb_ph" value="${i.MB_PH }"
+								id="MT_${i.NUM }_6"></td>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="mb_email" value="${i.MB_EMAIL }" id="MT_${i.NUM }_7"></td>
+								disabled="disabled" name="mb_email" value="${i.MB_EMAIL }"
+								id="MT_${i.NUM }_7"></td>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="mb_regdate" value="${i.MB_REGDATE.substring(0, 10) }" id="MT_${i.NUM }_8"></td>
+								disabled="disabled" name="mb_regdate"
+								value="${i.MB_REGDATE.substring(0, 10) }" id="MT_${i.NUM }_8"></td>
 							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="mb_stat" value="${i.MB_STAT }" id="MT_${i.NUM }_9"></td>
+								disabled="disabled" name="mb_stat" value="${i.MB_STAT }"
+								id="MT_${i.NUM }_9"></td>
 							<td><a href="#" id="memView_">관리</a></td>
 						</tr>
 					</c:forEach>
-
-
 				</tbody>
 			</table>
 		</div>
 		<div id="pageForm" class="page_area">
 			<c:choose>
 				<c:when test="${page > 1 }">
-					<a href='member_list.ad?&page=${page-1 }' class="page_prev">이전</a>
+					<a href='member_list.ad?&page=${page}' class="page_prev">이전</a>
 				</c:when>
 				<c:otherwise>
 					<a href='#' class="page_prev">이전</a>

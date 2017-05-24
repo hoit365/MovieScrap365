@@ -14,7 +14,7 @@
 			<input type="submit" class="btn_login" value="LOGIN">
 		</div>
 		<div class="login_bottom">
-			<a href="${PATH}/admin/admin.ad">메인으로</a>
+			<a href="${PATH}/main.in">메인으로</a>
 		</div>
 	</div>
 </div>

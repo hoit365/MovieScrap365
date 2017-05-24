@@ -14,10 +14,30 @@ public class MovieAPI {
 	
 	private String sort = "";
 	private int page = 1;
-
+	
+	private int listCount = 100;
+	private String query = null;
 	private String search2 = null;
 	private String stx2 = null;
 	private final String API_KEY = "DE611070AD8C97B8FAE32AFB839EF9CA3E764F776407F406616C6FF56A2";// 애플리케이션 클라이언트 아이디값";
+	
+	
+	
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	public int getListCount() {
+		return listCount;
+	}
+
+	public void setListCount(int listCount) {
+		this.listCount = listCount;
+	}
 
 	public int getPage() {
 		return page;
@@ -77,19 +97,19 @@ public class MovieAPI {
 			urlBuilder.append(URLEncoder.encode("collection","utf-8")+"="+URLEncoder.encode("kmdb_new", "utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode("ServiceKey", "utf-8")+"="+URLEncoder.encode(API_KEY, "utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode(search, "utf-8")+"="+URLEncoder.encode(stx,"utf-8"));
-			urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode("100","utf-8"));
-			
+			urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode(""+this.listCount,"utf-8"));
+			System.out.println(stx);
 			//페이징
 			urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode(""+(this.page-1)*10,"utf-8"));
-			if( search2 != null && stx2 != null){				
+			if( search2 != null && stx2 != null){
 				urlBuilder.append("&"+URLEncoder.encode(search2, "utf-8")+"="+URLEncoder.encode(stx2,"utf-8"));
 				urlBuilder.append("&"+URLEncoder.encode("detail=Y", "utf-8"));
 			}
+
 			//정렬
-			if ( sort.equals("prodYear")){
-				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode("prodYear","utf-8"));
-			} else if (sort.equals("title")){
-				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode("title","utf-8"));
+			if ( sort != null && !sort.equals("")){
+				urlBuilder.append("&"+URLEncoder.encode("query", "utf-8")+"="+URLEncoder.encode("record","utf-8"));
+				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode(this.sort,"utf-8"));
 			}
 			
 			System.out.println(urlBuilder.toString());

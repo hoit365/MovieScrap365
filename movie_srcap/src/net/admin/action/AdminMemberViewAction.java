@@ -8,67 +8,33 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.admin.db.AdminBean;
 import net.admin.db.AdminDAO;
+import net.admin.db.AdminDAO2;
 import net.admin.db.PageMaker;
 
 public class AdminMemberViewAction implements Action{
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		request.setCharacterEncoding("utf-8");
+		
+		String search = request.getParameter("search") == null ? null : request.getParameter("search");
+		String searchKeyword = request.getParameter("searchKeyword") == null ? null : request.getParameter("searchKeyword");
+		
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+		int firstRow = 0; //첫번째 행
+		int endRow = 0; //마지막행
+		
 		ActionForward forward = new ActionForward();
-		AdminDAO adminDAO = new AdminDAO();
-		List result = new ArrayList();
-		AdminBean adminBean = new AdminBean();
-		AdminBean pageing = new AdminBean();
-		PageMaker pageMaker = new PageMaker();
-		if(request.getParameter("search")==null){
-			pageing = adminDAO.totalSearchList(adminBean);
-			pageing = pageMaker.makeTotalPage(pageing);
-			pageing = pageMaker.makeStoEPage(pageing);
-			request.setAttribute("page", pageing.getPage());
-			request.setAttribute("countList", pageing.getCountList());
-			request.setAttribute("countPage", pageing.getCountPage());
-			request.setAttribute("totalCount", pageing.getTotalCount());
-			request.setAttribute("totalPage", pageing.getTotalPage());
-			request.setAttribute("startPage", pageing.getStartPage());
-			request.setAttribute("endPage", pageing.getEndPage());
-			result = adminDAO.adminMemberView();
+		AdminDAO2 adminDAO = AdminDAO2.getInstance();
 		
+		int totalCount = adminDAO.getBoardTotalCount(search, searchKeyword);
+		if( totalCount > 0){
+			firstRow = (page - 1) * 10+1;
+			endRow = firstRow + 10;
 		}
-		else if(request.getParameter("search")!=null){
-			System.out.println(request.getParameter("search"));
-			System.out.println(request.getParameter("searchKeyword"));
-			if(request.getParameter("search")!=null){
-				if(request.getParameter("search").equals("mb_id")){
-					adminBean.setMB_ID(request.getParameter("searchKeyword"));
-			}else if(request.getParameter("search").equals("mb_name")){
-				adminBean.setMB_NAME(request.getParameter("searchKeyword"));
-			}
-			else if(request.getParameter("search").equals("mb_ph")){
-				adminBean.setMB_PH(request.getParameter("searchKeyword"));
-			}
-			else if(request.getParameter("search").equals("mb_email")){
-				adminBean.setMB_EMAIL(request.getParameter("searchKeyword"));
-			}
-			else if(request.getParameter("search").equals("mb_stat")){
-				adminBean.setMB_STAT(request.getParameter("searchKeyword"));
-			}
-			}
-			pageing = adminDAO.totalSearchList(adminBean);
-			pageing = pageMaker.makeTotalPage(pageing);
-			pageing = pageMaker.makeStoEPage(pageing);
-			System.out.println(pageing.toString());
-			request.setAttribute("page", pageing.getPage());
-			request.setAttribute("countList", pageing.getCountList());
-			request.setAttribute("countPage", pageing.getCountPage());
-			request.setAttribute("totalCount", pageing.getTotalCount());
-			request.setAttribute("totalPage", pageing.getTotalPage());
-			request.setAttribute("startPage", pageing.getStartPage());
-			request.setAttribute("endPage", pageing.getEndPage());
-			
-			result = adminDAO.adminMemberView(pageing);
-		}
-		
-		request.setAttribute("memberList", result);
+
+		//멤버리스트
+		ArrayList<AdminBean> resultList = adminDAO.getAdminList(search, searchKeyword, firstRow, endRow);
+		request.setAttribute("resultList", resultList);
 		
 		System.out.println("회원 정보 조회 완료");
 		return forward;

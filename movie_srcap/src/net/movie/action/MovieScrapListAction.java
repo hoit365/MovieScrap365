@@ -34,7 +34,6 @@ public class MovieScrapListAction implements MAction {
 		MActionForward mforward = new MActionForward();
 		
 		MovieAPI mApi = new MovieAPI();
-		mApi.setStx("");
 		mApi.setSearch("title");
 		mApi.setPage(page);
 		
