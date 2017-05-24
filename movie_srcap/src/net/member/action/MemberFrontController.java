@@ -23,7 +23,7 @@ public class MemberFrontController extends javax.servlet.http.HttpServlet implem
 		ActionForward forward = null;
 		Action action = null;
 		// 메인
-		if (command.equals("/main.jsp")) {
+		if (command.equals("/main.in")) {
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("./main/main.jsp");
@@ -162,10 +162,10 @@ public class MemberFrontController extends javax.servlet.http.HttpServlet implem
 					forward.setPath("./MovieScrapView.mv?id=" + ms_id + "&seq=" + ms_seq);
 				} else {
 					forward.setRedirect(false);
-					forward.setPath("./main/main.jsp");
+					forward.setPath("/main.in");
 				}
 				forward.setRedirect(false);
-				forward.setPath("./main/main.jsp");
+				forward.setPath("/main.in");
 			}
 		}
 		// 패스워드 리셋
