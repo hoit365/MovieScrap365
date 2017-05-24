@@ -47,7 +47,7 @@ public class MovieScrapListAction implements MAction {
 		} else if ( sort.equals("title")){
 			mApi.setSort("title");
 		}
-
+		
 		MovieDAO mDao = MovieDAO.getInstance();
 		ArrayList<Movie> movieList = mDao.getMovieList(mApi.getResult());
 

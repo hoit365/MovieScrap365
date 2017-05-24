@@ -30,10 +30,10 @@
 				<div class="mylist_area">
 					<a href="MovieMyList.mv" class="btn01">MY LIST</a>
 				</div>
-				<!-- 오름차순, 내림차순 -->
+				<!-- 오름차순, 내림차순 -->  
 				<div class="sort_list" id="orderby">
-					<a href="MovieScrapList.mv?sort=prodYear&stx=${param.stx }" class="btn02 on">개봉순</a>
-					<a href="MovieScrapList.mv?sort=title&stx=${param.stx }" class="btn02">영화순</a>
+					<a href="MovieScrapList.mv?sort=prodYear&stx=${param.stx }" class="btn02 <c:if test="${ param.sort == 'prodYear' || empty param.sort}">on</c:if>">개봉순</a>
+					<a href="MovieScrapList.mv?sort=title&stx=${param.stx }" class="btn02 <c:if test="${ param.sort == 'title'}">on</c:if>">영화순</a>
 				</div>
 			</div>
 			<!-- 뿌려줄 곳 -->

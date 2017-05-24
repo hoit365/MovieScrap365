@@ -98,7 +98,7 @@ public class MovieAPI {
 			urlBuilder.append("&"+URLEncoder.encode("ServiceKey", "utf-8")+"="+URLEncoder.encode(API_KEY, "utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode(search, "utf-8")+"="+URLEncoder.encode(stx,"utf-8"));
 			urlBuilder.append("&"+URLEncoder.encode("listCount", "utf-8")+"="+URLEncoder.encode(""+this.listCount,"utf-8"));
-			System.out.println(stx);
+			
 			//페이징
 			urlBuilder.append("&"+URLEncoder.encode("startCount", "utf-8")+"="+URLEncoder.encode(""+(this.page-1)*10,"utf-8"));
 			if( search2 != null && stx2 != null){
@@ -108,11 +108,6 @@ public class MovieAPI {
 
 			//정렬
 			if ( sort != null && !sort.equals("")){
-				/*
-				 * urlBuilder.append("&"+URLEncoder.encode("query", "utf-8")+"="+URLEncoder.encode("record","utf-8"));
-				 * */
-				
-				
 				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode(this.sort,"utf-8"));
 			}
 			
@@ -120,17 +115,17 @@ public class MovieAPI {
 			
 			URL url = new URL(urlBuilder.toString());
 			HttpURLConnection con = (HttpURLConnection)url.openConnection();
-			
+
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-type", "application/json");
-			
+
 			int responseCode = con.getResponseCode();
 			
 			BufferedReader rd;
 			if (responseCode == 200) { // 정상 호출
-				rd = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				rd = new BufferedReader(new InputStreamReader(con.getInputStream(),"utf-8"));
 			} else { // 에러 발생
-				rd = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+				rd = new BufferedReader(new InputStreamReader(con.getErrorStream(),"utf-8"));
 			}
 			String line;
 			while ((line = rd.readLine()) != null) {
