@@ -108,7 +108,7 @@ public class MovieAPI {
 
 			//정렬
 			if ( sort != null && !sort.equals("")){
-				urlBuilder.append("&"+URLEncoder.encode("query", "utf-8")+"="+URLEncoder.encode("record","utf-8"));
+				/*urlBuilder.append("&"+URLEncoder.encode("query", "utf-8")+"="+URLEncoder.encode("record","utf-8"));*/
 				urlBuilder.append("&"+URLEncoder.encode("sort", "utf-8")+"="+URLEncoder.encode(this.sort,"utf-8"));
 			}
 			
