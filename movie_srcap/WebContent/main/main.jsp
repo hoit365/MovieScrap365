@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <c:import url="../layout/header.jsp"></c:import>
 <%
 	List movierankList = (List) request.getAttribute("movierankList");
@@ -34,15 +35,14 @@
 	<div class="main_area1">
 		<!-- movie_list01 -->
 		<div class="movie_list01 movie_list_area slider_list">
-			<h2 class="title_main">최신개봉작</h2>
+			<h2 class="title_main">최신작</h2>
 			<div class="viewer">
 				<ul class="clear clearfix">
-					<li><a href="#"><img src="${IMG_PATH }/poster/poster (1).jpg" alt="" /></a></li>
-					<li><a href="#"><img src="${IMG_PATH }/poster/poster (2).jpg" alt="" /></a></li>
-					<li><a href="#"><img src="${IMG_PATH }/poster/poster (3).jpg" alt="" /></a></li>
-					<li><a href="#"><img src="${IMG_PATH }/poster/poster (4).jpg" alt="" /></a></li>
-					<li><a href="#"><img src="${IMG_PATH }/poster/poster (10).jpg" alt="" /></a></li>
-					<li><a href="#"><img src="${IMG_PATH }/poster/poster (11).jpg" alt="" /></a></li>					
+				<c:forEach items="${movieLastestList }" var="mv">
+					<c:forTokens items="${mv.poster }" delims="|" var="item" begin="0" end="0">
+					<li><a href="MovieScrapView.mv?seq=${mv.movieSeq }&id=${mv.movieId }"><img src="${item}" alt="${mv.title }" /></a></li>
+					</c:forTokens>
+				</c:forEach>		
 				</ul>
 			</div>
 			<div class="slider_nav"></div>
@@ -55,10 +55,14 @@
 		<div class="area_left">
 			<!-- movie_list02 -->
 			<div class="movie_list02 movie_list_area">
-				<h2 class="title_main">개봉예정작</h2>
+				<h2 class="title_main">추천작</h2>
 				<ul class="clear clearfix">
-					<li><a href="#"><img src="${IMG_PATH }/poster/poster (10).jpg" alt="" /></a></li>
-					<li><a href="#"><img src="${IMG_PATH }/poster/poster (11).jpg" alt="" /></a></li>
+					<c:forTokens items="${mv1.poster }" delims="|" var="item" begin="0" end="0">
+					<li><a href="MovieScrapView.mv?seq=${mv1.movieSeq }&id=${mv1.movieId }"><img src="${item}" alt="" /></a></li>
+					</c:forTokens>
+					<c:forTokens items="${mv2.poster }" delims="|" var="item" begin="0" end="0">
+					<li><a href="MovieScrapView.mv?seq=${mv2.movieSeq }&id=${mv2.movieId }"><img src="${item}" alt="" /></a></li>
+					</c:forTokens>
 				</ul>
 			</div>
 			<!-- //movie_list02 -->

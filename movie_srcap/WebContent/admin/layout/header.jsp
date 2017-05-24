@@ -47,10 +47,7 @@ if(request.getAttribute("msg")!=null){
 			<h1 class="logo">Dashboard</h1>
 			<div class="gnb_area">
 				<ul class="clear clearfix">
-					<li><a href="">회원관리</a></li>
-					<li><a href="">게시물관리</a></li>
-					<li><a href="">메인관리</a></li>
-					<li><a href="">스크랩관리</a></li>
+					<li><a href="${PATH }/member_list.ad">회원관리</a></li>
 				</ul>			
 			</div>
 		</header>

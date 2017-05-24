@@ -21,11 +21,11 @@
 			
 			<!-- 검색 -->
 			<form action="MovieScrapList.mv" method="get">
-				<label class="tit" for="stx">검색할 영화제목을 입력해주세요.</label>
-				<input type="text" name="stx" id="stx" value="" size="40" />
-				<input type="submit"  class="btn01" value="영화검색" />
+			<label class="tit" for="stx">검색할 영화제목을 입력해주세요.</label>
+			<input type="text" name="stx" id="stx" value="${param.stx }" size="40" />
+			<input type="submit" class="btn01" value="영화검색" />
 			</form>
-			
+
 			<div class="clearfix mv_top_area">
 				<div class="mylist_area">
 					<a href="MovieMyList.mv" class="btn01">MY LIST</a>

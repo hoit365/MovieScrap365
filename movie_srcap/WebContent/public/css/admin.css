@@ -297,12 +297,6 @@ input[size='500'] {
 	text-indent: 45px;
 }
 
-.login_area input[type="text"]:focus, .login_area input[type="password"]:focus
-	{
-	border-color: #fff;
-	color: #fff;
-	background: #efefef;
-}
 
 .login_area .login_list li {
 	position: relative;
@@ -326,9 +320,8 @@ input[size='500'] {
 	font-weight: bold;
 	text-align: center;
 	font-size: 1.4em;
-	background: url(../images/bg_btn_login.png) repeat-x;
 }
-
+.login_area .btn_login:hover{background:#000;color:#fff}
 .login_area .login_bottom {
 	padding: 10px;
 	text-align: right;
