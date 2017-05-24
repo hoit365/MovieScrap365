@@ -20,17 +20,7 @@
 			<input type="submit" value="영화검색" class="btn01" />
 		</form>
 	</div>
-	<!-- main_visual_area -->
-	<div class="main_visual_area">
-		<div class="visual_area">
-			<ul class="bxslider">
-				<li><img src="${IMG_PATH }/main/visual_img01.jpg" /></li>
-				<li><img src="${IMG_PATH }/main/visual_img02.jpg" /></li>
-				<li><img src="${IMG_PATH }/main/visual_img03.jpg" /></li>
-			</ul>
-		</div>
-	</div>
-	<!-- //main_visual_area -->
+
 	
 	<div class="main_area1">
 		<!-- movie_list01 -->
@@ -48,7 +38,7 @@
 			<div class="slider_nav"></div>
 		</div>
 		<!-- //movie_list01 -->	
-		<a href="#" class="btn_more">더보기</a>
+		<a href="${PATH }/MovieScrapList.mv" class="btn_more">더보기</a>
 	</div>	
 
 	<div class="clearfix main_area2">

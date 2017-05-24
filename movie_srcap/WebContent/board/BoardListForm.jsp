@@ -36,9 +36,9 @@
 							<a href="${PATH }/BoardListAction.bo?&opt=${opt }&condition=${condition }&orderby=board_max_seq" class="btn02 on">최신글</a>
 							<a href="${PATH }/BoardListAction.bo?&opt=${opt }&condition=${condition }&orderby=board_max_ref" class="btn02">조회수</a>
 						</c:when>
-						<c:otherwise>
-							<a href="${PATH }/BoardListAction.bo?&orderby=board_max_seq" class="btn02 on">최신글</a>
-							<a href="${PATH }/BoardListAction.bo?&orderby=board_max_ref" class="btn02">조회수</a>
+						<c:otherwise> 
+							<a href="${PATH }/BoardListAction.bo?&orderby=board_max_seq" class="btn02 <c:if test="${ empty param.orderby || param.orderby == 'board_max_seq'}">on</c:if>">최신글</a>
+							<a href="${PATH }/BoardListAction.bo?&orderby=board_max_ref" class="btn02 <c:if test="${ param.orderby == 'board_max_ref'}">on</c:if> ">조회수</a>
 						</c:otherwise>
 					</c:choose>
 				
@@ -69,7 +69,7 @@
 								<c:forEach var="board" items="${requestScope.list}">
 								<tr>
 									<td>${board.board_num}</td>
-									<td align="left">
+									<td class="left">
 										<c:if test="${board.board_re_lev > 1}">
 											<c:forEach begin="1" end="${board.board_re_lev}">&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. --></c:forEach>
 												<img src="img/reply_icon.gif">
