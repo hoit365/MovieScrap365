@@ -16,9 +16,7 @@
 	</div>
 	<div class="content_inner">
 		<div class="section">
-			<form action="${PATH}/member_list.ad"
-				style="border: 3px; border-color: red;" method="post"
-				name="memberControl" id="frm">
+			<form action="${PATH}/member_list.ad" method="post" name="memberControl" id="frm">
 				<table border="1">
 					<colgroup>
 						<col width="120" />
@@ -29,63 +27,61 @@
 					<tr>
 						<th>아이디</th>
 						<td><input type="text" name="mb_id" width="400" size="80"
-							value="" class="updateTable" id="mb_id" /></td>
+							value="${viewBean.MB_ID }" class="updateTable" id="mb_id" /></td>
 						<th>이름</th>
-						<td><input type="text" name="mb_name" value=""
+						<td><input type="text" name="mb_name" value="${viewBean.MB_NAME }"
 							class="updateTable" id="mb_name" /></td>
 					</tr>
 
 					<tr>
 						<th>이메일</th>
 						<td><input type="text" class="updateTable" name="mb_email"
-							width="280" value="" size="100" placeholder="이메일을 정확하게 입력해주세요."
+							width="280" value="${viewBean.MB_EMAIL }" size="100" placeholder="이메일을 정확하게 입력해주세요."
 							id="mb_email" />&nbsp;</td>
 						<th>생년월일</th>
 						<td><input type="text" class="updateTable" name="mb_birth"
-							width="280" size="80" placeholder="생년월일" id="mb_birth" /></td>
+							width="280" size="80" placeholder="생년월일" id="mb_birth" value="${viewBean.MB_BIRTH }" /></td>
 					</tr>
 					<tr>
 						<th>성별</th>
 						<td><select name="mb_gender" id="mb_gender"
 							class="input-select">
-								<option value="male">남자</option>
-								<option value="female">여자</option>
+								<option value="male" <c:if test="${viewBean.MB_GENDER == 'male' }">selected</c:if>>남자</option>
+								<option value="female" <c:if test="${viewBean.MB_GENDER == 'female' }">selected</c:if>>여자</option>
 						</select></td>
 						<th>핸드폰번호</th>
 						<td><input type="text" class="updateTable" name="mb_ph"
-							value="" placeholder="숫자만 입력해주세요." id="mb_ph" /></td>
+							value="${viewBean.MB_PH }" placeholder="숫자만 입력해주세요." id="mb_ph" /></td>
 					</tr>
 					<tr>
 						<th>회원상태</th>
 						<td><select name="mb_stat" class="input-select">
-								<option value="active">활성화</option>
-								<option value="ban">일시정지</option>
-								<option value="inactive">비활성화</option>
+								<option value="active" <c:if test="${viewBean.MB_STAT == 'active' }">selected</c:if> >활성화</option>
+								<option value="ban" <c:if test="${viewBean.MB_STAT == 'ban' }">selected</c:if> > 일시정지</option>
+								<option value="inactive" <c:if test="${viewBean.MB_STAT == 'inactive' }">selected</c:if> >비활성화</option>
 						</select></td>
 						<td></td>
 						<td></td>
-
 					</tr>
 				</table>
-				<div align="right">
-
-					<a href="${PATH}/main/main.jsp" class="btn01">비밀번호리셋</a> <input
-						type="submit" value="정보수정" class="btn01" /> <a
-						href="${PATH}/main/main.jsp" class="btn01">취소</a>
+				<div class="btn_area_right">
+				
+					<input type="submit" value="정보수정" class="btn01" /> 
 				</div>
 			</form>
 		</div>
 		<div class="search_area">
-			<form action="${PATH}/search_member_list.ad" method="post"
-				name="searchBox" id="searchBox">
+			<form action="${PATH}/search_member_list.ad" method="get" name="searchBox" id="searchBox">
 				<select name="search" class="input-select">
-					<option value="mb_id">아이디</option>
-					<option value="mb_name">이름</option>
-					<option value="mb_ph">전화번호</option>
-					<option value="mb_email">이메일</option>
-					<option value="mb_stat">상태</option>
-				</select> <input type="text" name="searchKeyword" id="stx"
-					placeholder="검색어를 입력하세요" class="serach" /> <input type="submit"
+					<option value="mb_id"  <c:if test="${param.search == 'mb_id' }">selected</c:if> >아이디</option>
+					<option value="mb_name" <c:if test="${param.search == 'mb_name' }">selected</c:if> >이름</option>
+					<option value="mb_ph" <c:if test="${param.search == 'mb_ph' }">selected</c:if> >전화번호</option>
+					<option value="mb_email" <c:if test="${param.search == 'mb_email' }">selected</c:if> >이메일</option>
+					<option value="mb_stat" <c:if test="${param.search == 'mb_stat' }">selected</c:if> >상태</option>
+				</select> 
+				<input type="text" name="searchKeyword" id="stx"
+					placeholder="검색어를 입력하세요" class="serach" value="${param.searchKeyword }"/> 
+				<input type="submit"
 					value="검색" class="btn01" /> <a href="${PATH}/member_list.ad"
 					class="btn01">초기화</a>
 			</form>
@@ -93,7 +89,6 @@
 		<div class="board_list">
 			<table>
 				<colgroup>
-					<col width="50" />
 					<col width="120" />
 					<col width="80" />
 					<col width="110" />
@@ -105,7 +100,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th>번호</th>
+						
 						<th>아이디</th>
 						<th>이름</th>
 						<th>생일</th>
@@ -118,11 +113,9 @@
 					</tr>
 				</thead>
 				<tbody id="memberTable">
-					<c:forEach var="i" items="${resultList }">
+					<c:forEach var="i" items="${resultList }" varStatus="num">
 						<tr>
-							<td><input type="text" readonly="readonly" class="memTable"
-								disabled="disabled" name="num" value="${i.NUM }"
-								id="MT_${i.NUM }_1"></td>
+					
 							<td><input type="text" readonly="readonly" class="memTable"
 								disabled="disabled" name="mb_id" value="${i.MB_ID }"
 								id="MT_${i.NUM }_2"></td>
@@ -147,167 +140,32 @@
 							<td><input type="text" readonly="readonly" class="memTable"
 								disabled="disabled" name="mb_stat" value="${i.MB_STAT }"
 								id="MT_${i.NUM }_9"></td>
-							<td><a href="#" id="memView_">관리</a></td>
+							<td><a href="member_list.ad?mb_id=${i.MB_ID }&page=${page}&searchKeyword=${param.searchKeyword}&search=${param.search}" id="memView_">관리</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
-		<div id="pageForm" class="page_area">
-			<c:choose>
-				<c:when test="${page > 1 }">
-					<a href='member_list.ad?&page=${page}' class="page_prev">이전</a>
-				</c:when>
-				<c:otherwise>
-					<a href='#' class="page_prev">이전</a>
-				</c:otherwise>
-			</c:choose>
-
-			<c:forEach var="pageNum" begin="${startPage }" end="${endPage }">
-				<c:choose>
-					<c:when test="${pageNum == page }">
-						<em>${pageNum+1 }</em>
-					</c:when>
-					<c:otherwise>
-						<a href='member_list.ad?&page=${pageNum }'>${pageNum }</a>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-
-			<c:choose>
-				<c:when test="${page < endPage }">
-					<a href='member_list.ad?&page=${page+1 }' class="page_next">다음</a>
-				</c:when>
-				<c:otherwise>
-					<a href='#' class="page_next">다음</a>
-				</c:otherwise>
-			</c:choose>
-
+		<!-- 페이징 처리 -->
+		<div class="page_area">
+		<c:if test="${page > 1 }">
+			<a href="./member_list.ad?stx=${param.stx }&page=${page-1}" class="page_prev">이전</a>
+		</c:if>
+		<c:forEach begin="1" end="${endpage }" var="p">
+		<c:choose>
+		<c:when test="${p == page }">
+			<em>${p }</em>
+		</c:when>
+		<c:otherwise>
+		<a href="./member_list.ad?stx=${param.stx }&page=${p}">${p }</a>
+		</c:otherwise>
+		</c:choose>
+		</c:forEach>
+		<c:if test="${page < endpage }">
+			<a href="./member_list.ad?stx=${param.stx }&page=${page+1}" class="page_next">다음</a>
+		</c:if>	
 		</div>
-
 	</div>
-</div>
-<script type="text/javascript">
-	if (document.getElementById('memView_0') != null) {
-		var mv_1 = document.getElementById('memView_0');
-		mv_1.addEventListener('click', function() {
-			mb_id.value = MT_0_2.value;
-			mb_name.value = MT_0_3.value;
-			mb_email.value = MT_0_7.value;
-			mb_birth.value = MT_0_4.value;
-			mb_gender.value = MT_0_5.value;
-			mb_ph.value = MT_0_6.value;
-			mb_stat.value = MT_0_9.value;
-		})
-	}
-	if (document.getElementById('memView_1') != null) {
-		var mv_2 = document.getElementById('memView_1');
-		mv_2.addEventListener('click', function() {
-			mb_id.value = MT_1_2.value;
-			mb_name.value = MT_1_3.value;
-			mb_email.value = MT_1_7.value;
-			mb_birth.value = MT_1_4.value;
-			mb_gender.value = MT_1_5.value;
-			mb_ph.value = MT_1_6.value;
-			mb_stat.value = MT_1_9.value;
-		})
-	}
-	if (document.getElementById('memView_2') != null) {
-		var mv_3 = document.getElementById('memView_2');
-		mv_3.addEventListener('click', function() {
-			mb_id.value = MT_2_2.value;
-			mb_name.value = MT_2_3.value;
-			mb_email.value = MT_2_7.value;
-			mb_birth.value = MT_2_4.value;
-			mb_gender.value = MT_2_5.value;
-			mb_ph.value = MT_2_6.value;
-			mb_stat.value = MT_2_9.value;
-		})
-	}
-	if (document.getElementById('memView_3') != null) {
-		var mv_4 = document.getElementById('memView_3');
-		mv_4.addEventListener('click', function() {
-			mb_id.value = MT_3_2.value;
-			mb_name.value = MT_3_3.value;
-			mb_email.value = MT_3_7.value;
-			mb_birth.value = MT_3_4.value;
-			mb_gender.value = MT_3_5.value;
-			mb_ph.value = MT_3_6.value;
-			mb_stat.value = MT_3_9.value;
-		})
-	}
-	if (document.getElementById('memView_4') != null) {
-		var mv_5 = document.getElementById('memView_4');
-		mv_5.addEventListener('click', function() {
-			mb_id.value = MT_4_2.value;
-			mb_name.value = MT_4_3.value;
-			mb_email.value = MT_4_7.value;
-			mb_birth.value = MT_4_4.value;
-			mb_gender.value = MT_4_5.value;
-			mb_ph.value = MT_4_6.value;
-			mb_stat.value = MT_4_9.value;
-		})
-	}
-	if (document.getElementById('memView_5') != null) {
-		var mv_6 = document.getElementById('memView_5');
 
-		mv_6.addEventListener('click', function() {
-			mb_id.value = MT_5_2.value;
-			mb_name.value = MT_5_3.value;
-			mb_email.value = MT_5_7.value;
-			mb_birth.value = MT_5_4.value;
-			mb_gender.value = MT_5_5.value;
-			mb_ph.value = MT_5_6.value;
-			mb_stat.value = MT_5_9.value;
-		})
-	}
-	if (document.getElementById('memView_6') != null) {
-		var mv_7 = document.getElementById('memView_6');
-		mv_7.addEventListener('click', function() {
-			mb_id.value = MT_6_2.value;
-			mb_name.value = MT_6_3.value;
-			mb_email.value = MT_6_7.value;
-			mb_birth.value = MT_6_4.value;
-			mb_gender.value = MT_6_5.value;
-			mb_ph.value = MT_6_6.value;
-			mb_stat.value = MT_6_9.value;
-		})
-	}
-	if (document.getElementById('memView_7') != null) {
-		var mv_8 = document.getElementById('memView_7');
-		mv_8.addEventListener('click', function() {
-			mb_id.value = MT_7_2.value;
-			mb_name.value = MT_7_3.value;
-			mb_email.value = MT_7_7.value;
-			mb_birth.value = MT_7_4.value;
-			mb_gender.value = MT_7_5.value;
-			mb_ph.value = MT_7_6.value;
-			mb_stat.value = MT_7_9.value;
-		})
-	}
-	if (document.getElementById('memView_8') != null) {
-		var mv_9 = document.getElementById('memView_8');
-		mv_9.addEventListener('click', function() {
-			mb_id.value = MT_8_2.value;
-			mb_name.value = MT_8_3.value;
-			mb_email.value = MT_8_7.value;
-			mb_birth.value = MT_8_4.value;
-			mb_gender.value = MT_8_5.value;
-			mb_ph.value = MT_8_6.value;
-			mb_stat.value = MT_8_9.value;
-		})
-	}
-	if (document.getElementById('memView_9') != null) {
-		var mv_10 = document.getElementById('memView_9');
-		mv_10.addEventListener('click', function() {
-			mb_id.value = MT_9_2.value;
-			mb_name.value = MT_9_3.value;
-			mb_email.value = MT_9_7.value;
-			mb_birth.value = MT_9_4.value;
-			mb_gender.value = MT_9_5.value;
-			mb_ph.value = MT_9_6.value;
-			mb_stat.value = MT_9_9.value;
-		})
-	}
-</script>
+</div>
 <c:import url="../layout/footer.jsp"></c:import>

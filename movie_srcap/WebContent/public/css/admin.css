@@ -2,6 +2,19 @@
 
 @import 'jquery.mobile.css';
 
+
+.btn_area_right{text-align:right;padding-top:10px}
+
+/* page area */
+.page_area{padding-top:20px;text-align:center;}
+.page_area em, .page_area a{display:inline-block;color:#333;width:30px;text-align:center;line-height:30px;border:1px solid #9c918a;vertical-align:middle}
+.page_area em{background:#000;color:#fff}
+.page_area a.page_prev{width:50px}
+.page_area a.page_next{width:50px}
+.page_area a.page_first{width:50px}
+.page_area a.page_last{width:50px}
+.page_area a:hover{background:#efefef}
+
 /* input */
 select {
 	display: inline-block;
